@@ -1,0 +1,25 @@
+[project]
+name = "fastedgy-template"
+description = "The template project for FastEdgy"
+authors = [
+    {name = "Krafter", email = "developer@krafter.io"},
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dynamic = [
+    "version"
+]
+dependencies = [
+    "fastedgy",
+]
+
+[dependency-groups]
+dev = [
+    "ruff >= 0.13",
+]
+
+[tool.setuptools.packages.find]
+exclude = ["app"]
+
+[tool.uv.sources]
+fastedgy = { git = "https://github.com/krafterio/fastedgy" }

@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": ".venv/bin/kt",
+            "args": ["serve", "--port", "8000"],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "${workspaceFolder}/.venv/bin/python"
+        },
+        {
+            "name": "App",
+            "type": "node-terminal",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "command": "${workspaceFolder}/.vscode/npm run dev",
+            "skipFiles": ["<node_internals>/**"]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "All",
+            "configurations": ["Server", "App"],
+            "stopAll": true,
+            "presentation": {
+                "hidden": false,
+                "group": "all",
+                "order": 1
+            }
+        }
+    ]
+}

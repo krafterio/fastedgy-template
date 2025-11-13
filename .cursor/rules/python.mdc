@@ -1,0 +1,24 @@
+---
+description: Python backend conventions for FastAPI and Edgy ORM: structure, errors, and testing
+globs:
+  - "server/**/*.py"
+alwaysApply: true
+---
+
+# Python / FastAPI / Edgy conventions
+
+## Project Facts
+- FastEdgy product docs are exposed via an MCP server named "fastedgy-docs"
+- Documentation covers FastAPI patterns, EdgyORM usage, dependency injection, and FastEdgy framework features
+
+## Rules
+1. Python target: 3.13. Use type hints everywhere. Use Pydantic for validation. Always use `uv run` to run command.
+2. Services: Single-responsibility functions; dependency injection via FastAPI Depends; no global state
+3. Edgy ORM: Use async session patterns; avoid N+1 by preloading relations; never perform writes in GET handlers
+4. Errors: Raise HTTPException with detail enums; validate inputs with pydantic; log at error boundary
+5. Tests: Pytest; async tests with anyio; one test module per feature; add regression test for every bugfix
+6. Formatting: Ruff/Black defaults; docstrings Google style for public funcs/classes
+7. FastEdgy integration (MCP-first):
+   - When working with FastEdgy concepts (ORM Edgy, DI, API Routes Generator, Query Builder, Fields Selector, Metadata Generator, ORM Extensions, Database Migration, Queued Tasks, CLI, i18n, Multi Tenant, Email, Storage, Authentication, settings), MUST first call MCP **fastedgy-docs** → `search("keywords")`, then `read(uri)` for the top result **before coding**
+   - In PRs, reference the consulted doc section (file/heading or link)
+   - DO NOT invent framework APIs. If missing in docs, propose a thin wrapper with clear TODO and link to the doc gap

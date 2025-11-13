@@ -1,0 +1,13 @@
+{
+    "mcpServers": {
+      "fastedgy-docs": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@serverless-dna/mkdocs-mcp",
+          "https://fastedgy.krafter.io",
+          "Search FastEdgy documentation (MkDocs) and return concise, source-linked answers."
+        ]
+      }
+    }
+  }

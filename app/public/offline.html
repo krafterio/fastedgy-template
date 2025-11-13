@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hors ligne - FastEdgy</title>
+        <script type="text/javascript">
+            window.addEventListener("online", () => location.reload());
+        </script>
+        <style>
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    "Helvetica Neue", Ubuntu, "Noto Sans", Arial, sans-serif,
+                    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+                    "Noto Color Emoji";
+                padding: 0;
+                margin: 0;
+                background-color: #ffffff;
+                color: #141414;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                height: 100vh;
+                width: 100vw;
+                user-select: none;
+            }
+
+            .card {
+                width: 80%;
+                max-width: 400px;
+            }
+
+            .card img {
+                width: 96px;
+                height: auto;
+                filter: grayscale(0.6);
+                margin-bottom: 2rem;
+            }
+
+            .card h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+                font-weight: 600;
+            }
+
+            .card p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                opacity: 0.8;
+                line-height: 1.5;
+            }
+
+            .card button {
+                background-color: #141414;
+                color: #ffffff;
+                border: none;
+                border-radius: 0.5rem;
+                padding: 0.75rem 1.5rem;
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+
+            .card button:hover {
+                background-color: #f0f0f0;
+                transform: translateY(-1px);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="card">
+            <img src="/favicon.png" alt="Logo" />
+
+            <h1>Vous êtes hors ligne</h1>
+
+            <p>
+                Vérifiez votre connexion réseau et revenez ici. L'application se
+                chargera dès que vous serez de nouveau en ligne.
+            </p>
+
+            <button onclick="location.reload()">Réessayer</button>
+        </div>
+    </body>
+</html>
