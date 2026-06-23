@@ -155,6 +155,4 @@ async def init_states():
         else:
             skipped_count += 1
 
-    console.print(
-        f"[green]States: {created_count} created, {skipped_count} already exist[/green]"
-    )
+    console.print(f"[green]States: {created_count} created, {skipped_count} already exist[/green]")

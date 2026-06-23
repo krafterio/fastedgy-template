@@ -1,5 +1,7 @@
 {
     "include": ["server"],
+    "venvPath": ".",
+    "venv": ".venv",
     "executionEnvironments": [
         {
             "root": "server"

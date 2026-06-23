@@ -13,9 +13,7 @@ from models.user import User, UserRole
 @cli.option("--role", type=str, default=None, help="User role")
 @cli.lifespan
 @cli.initialize_app
-async def create(
-    email: str | None = None, name: str | None = None, role: str | None = None
-) -> None:
+async def create(email: str | None = None, name: str | None = None, role: str | None = None) -> None:
     """Create a user"""
     try:
         if not email:
@@ -27,9 +25,7 @@ async def create(
         if not role:
             role = click.prompt(
                 "Role",
-                type=click.Choice(
-                    [choice.value for choice in UserRole], case_sensitive=False
-                ),
+                type=click.Choice([choice.value for choice in UserRole], case_sensitive=False),
                 default=UserRole.admin.value,
             )
         user_role = UserRole(role)

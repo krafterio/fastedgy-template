@@ -44,3 +44,8 @@ logs/
 .logs/
 data/
 .data/
+
+# Project Template - REMOVE THIS SECTION FOR YOUR PROJECT
+server/migrations/
+package-lock.json
+uv.lock

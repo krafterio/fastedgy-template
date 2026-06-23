@@ -3,16 +3,19 @@
     "private": true,
     "version": "0.1.0",
     "type": "module",
-    "web-types": "./app/web-types.json",
+    "web-types": "./web/web-types.json",
     "workspaces": [
-        "app"
+        "web"
     ],
     "scripts": {
-        "dev": "cd app && vite",
-        "build": "cd app && NODE_OPTIONS='--max-old-space-size=4096' vite build",
-        "preview": "cd app && vite preview",
-        "test": "cd app && vitest run",
-        "test:watch": "cd app && vitest"
+        "dev": "cd web && vite",
+        "build": "cd web && NODE_OPTIONS='--max-old-space-size=4096' vite build",
+        "preview": "cd web && vite preview",
+        "test": "cd web && vitest run",
+        "test:watch": "cd web && vitest",
+        "lint": "oxlint . --type-aware",
+        "fix": "oxlint --fix",
+        "format": "oxfmt --write ./web/src"
     },
     "dependencies": {
         "@cyhnkckali/vue3-color-picker": "^2.1.5",
@@ -56,7 +59,11 @@
         "@vue/test-utils": "^2.4.4",
         "autoprefixer": "^10.4.21",
         "jsdom": "^24.0.0",
+        "oxfmt": "^0.42.0",
+        "oxlint": "^1.60.0",
+        "oxlint-tsgolint": "^0.23.0",
         "postcss": "^8.5.6",
+        "prettier": "3.8.1",
         "sass": "^1.86.3",
         "tailwindcss": "^4.1.11",
         "vite": "^6.2.6",

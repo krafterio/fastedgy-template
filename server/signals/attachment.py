@@ -6,14 +6,10 @@ from models.attachment import Attachment
 
 
 @pre_delete.connect_via(Attachment)
-async def _on_pre_delete(
-    sender: Any, instance: Any, model_instance: Any, **kwargs: Any
-) -> None:
+async def _on_pre_delete(sender: Any, instance: Any, model_instance: Any, **kwargs: Any) -> None:
     await on_pre_delete(sender, instance, model_instance, **kwargs)
 
 
 @post_delete.connect_via(Attachment)
-async def _on_post_delete(
-    sender: Any, instance: Any, model_instance: Any, **kwargs: Any
-) -> None:  # noqa: ANN401
+async def _on_post_delete(sender: Any, instance: Any, model_instance: Any, **kwargs: Any) -> None:  # noqa: ANN401
     await on_post_delete(sender, instance, model_instance, **kwargs)

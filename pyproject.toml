@@ -15,11 +15,23 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.410",
+    "pytest>=9.1.1",
     "ruff >= 0.13",
 ]
 
 [tool.setuptools.packages.find]
-exclude = ["app"]
+exclude = ["web"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = ["E711", "E712"]
+
+[tool.pytest.ini_options]
+testpaths = ["server/tests"]
+pythonpath = ["server"]
 
 [tool.uv.sources]
 fastedgy = { git = "https://github.com/krafterio/fastedgy" }
