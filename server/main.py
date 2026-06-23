@@ -1,24 +1,6 @@
 from typing import cast
 
-from fastapi import APIRouter, Depends
-from fastapi.middleware.cors import CORSMiddleware
-
-from fastedgy.app import FastEdgy
-from fastedgy.api import auth, auth_simple_registration, dataset, health, storage
-from fastedgy.api_route_model.router import (
-    register_admin_api_route_models,
-    register_api_route_models,
-)
-from fastedgy.api_route_model.standard_actions import (
-    register_standard_api_route_model_actions,
-)
-from fastedgy.config import BaseSettings, init_settings
-from fastedgy.depends.security import get_current_user
-
-from depends.security import (
-    is_admin,
-    get_app_context,
-)
+from fastedgy.config import BaseSettings
 
 import models as models
 import signals as signals
@@ -32,6 +14,28 @@ class AppSettings(BaseSettings):
 
 
 def app():
+    from fastapi import APIRouter, Depends
+    from fastapi.middleware.cors import CORSMiddleware
+
+    from fastedgy.app import FastEdgy
+    from fastedgy.api import auth, auth_simple_registration, dataset, health, storage
+    from fastedgy.api_route_model.router import (
+        register_admin_api_route_models,
+        register_api_route_models,
+    )
+    from fastedgy.api_route_model.standard_actions import (
+        register_standard_api_route_model_actions,
+    )
+    from fastedgy.config import init_settings
+    from fastedgy.depends.security import get_current_user
+
+    from depends.security import (
+        is_admin,
+        get_app_context,
+    )
+
+    from api import hello
+
     settings = cast(AppSettings, init_settings())
     app = FastEdgy(
         description="Backend API of FastEdgy",
@@ -73,6 +77,7 @@ def app():
     # Public routes
     public_router.include_router(auth_simple_registration.router)
     public_router.include_router(auth.public_router)
+    public_router.include_router(hello.router)
 
     # Authenticated routes
     router.include_router(auth.router)

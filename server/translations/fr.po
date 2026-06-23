@@ -1,0 +1,12 @@
+# FR translations
+#, fuzzy
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-01-07 16:45+0100\n\n"
+"PO-Revision-Date: 2026-01-07 16:45+0100\n\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: fr\n"
+"nplurals=2; plural=(n > 1);\n"
+
+msgid "Hello from FastEdgy!"
+msgstr "Bonjour de FastEdgy !"
