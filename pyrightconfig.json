@@ -6,5 +6,6 @@
         {
             "root": "server"
         }
-    ]
+    ],
+    "reportIncompatibleVariableOverride": false
 }
