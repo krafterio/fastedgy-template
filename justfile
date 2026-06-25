@@ -42,6 +42,25 @@ fixpy:
 fixjs:
     npm run fix
 
+# FCL all code (Python, JS/Vue)
+fcl:
+    uv run ruff check --fix
+    npm run fix
+    uv run pyright
+    uv run ruff check
+    npm run lint
+
+# FCL Python code
+fclpy:
+    uv run ruff check --fix
+    uv run pyright
+    uv run ruff check
+
+# FCL JS/Vue code
+fcljs:
+    npm run fix
+    npm run lint
+
 # Test all code (Python, JS/Vue)
 test:
     uv run pytest
