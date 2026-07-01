@@ -20,8 +20,8 @@ class Hello(BaseModel):
     current_time: str
 
 
-@router.get("", response_model=Hello)
-async def hello(i18n: I18n = Inject(I18n), config: AppSettings = Inject(AppSettings)):
+@router.get("")
+async def hello(i18n: I18n = Inject(I18n), config: AppSettings = Inject(AppSettings)) -> Hello:
     return Hello(
         message=_t("Hello from FastEdgy!"),
         locale=context.get_locale(),

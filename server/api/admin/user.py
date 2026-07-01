@@ -1,10 +1,7 @@
-from typing import Any
 from uuid import uuid4
 
 from fastapi import APIRouter, Body
-from fastedgy.api_route_model.action import (
-    generate_output_model,
-)
+from fastedgy.api_route_model.types import ModelItem
 from fastedgy.api_route_model.actions.create_action import create_item_action
 from fastedgy.api_route_model.params import FieldSelectorHeader
 from fastedgy.http import Request
@@ -28,7 +25,7 @@ async def create_item(
     request: Request,
     item_data: UserCreateRequest = Body(...),
     fields: str | None = FieldSelectorHeader(),  # type: ignore
-) -> generate_output_model(User) | dict[str, Any]:  # type: ignore
+) -> ModelItem[User]:
     item_data.password = hash_password(item_data.password or str(uuid4()))
 
     return await create_item_action(

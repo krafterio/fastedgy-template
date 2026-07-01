@@ -8,17 +8,17 @@ from schemas.user import Me, MeUpdate
 router = APIRouter(prefix="/me", tags=["my_account"])
 
 
-@router.get("", response_model=Me)
-async def read_users_me(current_user: User = Depends(get_current_user)):
-    return current_user
+@router.get("")
+async def read_users_me(current_user: User = Depends(get_current_user)) -> Me:
+    return Me.model_validate(current_user, from_attributes=True)
 
 
-@router.patch("", response_model=Me)
+@router.patch("")
 @transaction
 async def update_users_me(
     user_data: MeUpdate,
     current_user: User = Depends(get_current_user),
-):
+) -> Me:
     if user_data.name:
         current_user.name = user_data.name
 
@@ -30,4 +30,4 @@ async def update_users_me(
 
     await current_user.save()
 
-    return current_user
+    return Me.model_validate(current_user, from_attributes=True)
