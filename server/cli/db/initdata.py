@@ -1,7 +1,6 @@
 from fastedgy import cli
 from fastedgy.cli import console
 from fastedgy.cli.db import db
-
 from models.country import Country
 from models.state import State
 

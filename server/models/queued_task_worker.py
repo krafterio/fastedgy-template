@@ -1,5 +1,5 @@
-from fastedgy.models.queued_task_worker import BaseQueuedTaskWorker
 from fastedgy.i18n import _t
+from fastedgy.models.queued_task_worker import BaseQueuedTaskWorker
 
 
 class QueuedTaskWorker(BaseQueuedTaskWorker):

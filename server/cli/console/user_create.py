@@ -1,10 +1,10 @@
 import click
 from fastedgy import cli
+from fastedgy.cli import console
 from fastedgy.depends.security import hash_password
+from models.user import User, UserRole
 
 from cli.console import console_group
-from fastedgy.cli import console
-from models.user import User, UserRole
 
 
 @console_group.command(name="user-create")
@@ -46,5 +46,5 @@ async def user_create(email: str | None = None, name: str | None = None, role: s
         await user.save()
 
         console.print(f"[green]Successfully created user {email}[/green]")
-    except Exception as e:
-        console.print(f"[red]Error: {str(e)}[/red]")
+    except Exception as e:  # noqa: BLE001
+        console.print(f"[red]Error: {e!s}[/red]")

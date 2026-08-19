@@ -1,1 +1,1 @@
-import signals.attachment as attachment  # noqa: F401
+from signals import attachment  # noqa: F401

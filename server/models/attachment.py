@@ -1,7 +1,7 @@
 from fastedgy.api_route_model import api_route_model
-from fastedgy.models.attachment import BaseAttachment, AttachmentPathMixin
-from fastedgy.models.mixins import BlameableMixin
 from fastedgy.i18n import _t
+from fastedgy.models.attachment import AttachmentPathMixin, BaseAttachment
+from fastedgy.models.mixins import BlameableMixin
 
 
 @api_route_model(

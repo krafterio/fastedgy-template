@@ -1,7 +1,6 @@
-from fastapi import Depends, HTTPException, status, Request
+from fastapi import Depends, HTTPException, Request, status
 from fastedgy.depends.security import get_current_user
 from fastedgy.i18n import _t
-
 from models.user import User, UserRole
 
 
@@ -68,7 +67,7 @@ async def get_app_context(
 
 
 __all__ = [
+    "get_app_context",
     "is_admin",
     "is_app_user",
-    "get_app_context",
 ]

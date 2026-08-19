@@ -1,14 +1,13 @@
 from uuid import uuid4
 
 from fastapi import APIRouter, Body
-from fastedgy.api_route_model.types import ModelItem
 from fastedgy.api_route_model.actions.create_action import create_item_action
 from fastedgy.api_route_model.params import FieldSelectorHeader
-from fastedgy.http import Request
-from pydantic import BaseModel, EmailStr
-
+from fastedgy.api_route_model.types import ModelItem
 from fastedgy.depends.security import hash_password
+from fastedgy.http import Request
 from models.user import User, UserRole
+from pydantic import BaseModel, EmailStr
 
 router = APIRouter(prefix="/users", tags=["console"])
 

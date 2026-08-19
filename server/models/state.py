@@ -1,8 +1,8 @@
-from typing import TYPE_CHECKING, Union
+from typing import TYPE_CHECKING
 
 from fastedgy.api_route_model import api_route_model
-from fastedgy.models.base import BaseModel
 from fastedgy.i18n import _t
+from fastedgy.models.base import BaseModel
 from fastedgy.orm import fields
 from fastedgy.orm.order_by import OrderByList
 
@@ -18,7 +18,7 @@ class State(BaseModel):
         label_plural = _t("Départements/États")
         default_order_by: OrderByList = [("code", "asc")]
 
-    country: Union["Country", None] = fields.ForeignKey(
+    country: Country | None = fields.ForeignKey(
         "Country",
         label=_t("Pays"),
         null=False,

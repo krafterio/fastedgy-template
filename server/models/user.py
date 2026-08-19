@@ -1,7 +1,8 @@
 from enum import Enum
+
 from fastedgy.api_route_model.decorators import console_api_route_model
-from fastedgy.models.user import BaseUser
 from fastedgy.i18n import _t
+from fastedgy.models.user import BaseUser
 from fastedgy.orm import fields
 
 

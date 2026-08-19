@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from fastedgy.depends.security import get_current_user
 from fastedgy.orm import transaction
-
 from models.user import User
 from schemas.user import Me, MeUpdate
 

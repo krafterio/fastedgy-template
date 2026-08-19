@@ -1,20 +1,19 @@
 from fastedgy.context import (
-    set_request,
+    get_locale,
     get_request,
+    get_user,
     reset_request,
     set_locale,
-    get_locale,
+    set_request,
     set_user,
-    get_user,
 )
 
-
 __all__ = [
-    "set_request",
+    "get_locale",
     "get_request",
+    "get_user",
     "reset_request",
     "set_locale",
-    "get_locale",
+    "set_request",
     "set_user",
-    "get_user",
 ]

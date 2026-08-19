@@ -1,6 +1,6 @@
 from fastedgy.api_route_model import api_route_model
-from fastedgy.models.base import BaseModel
 from fastedgy.i18n import _t
+from fastedgy.models.base import BaseModel
 from fastedgy.orm import fields
 from fastedgy.orm.order_by import OrderByList
 

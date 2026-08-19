@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastedgy.depends.security import get_current_user
-from pydantic import BaseModel
-
 from models.user import User, UserRole
-
+from pydantic import BaseModel
 
 router = APIRouter(prefix="/info")
 

@@ -1,5 +1,5 @@
-from fastedgy.models.queued_task_log import BaseQueuedTaskLog
 from fastedgy.i18n import _t
+from fastedgy.models.queued_task_log import BaseQueuedTaskLog
 
 
 class QueuedTaskLog(BaseQueuedTaskLog):
