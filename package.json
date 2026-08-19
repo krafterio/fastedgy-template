@@ -15,7 +15,7 @@
         "test:watch": "cd web && vitest",
         "lint": "oxlint . --type-aware",
         "fix": "oxlint --fix",
-        "format": "oxfmt --write ./web/src"
+        "format": "oxfmt --write ./web/src ./web/vitest.setup.js"
     },
     "dependencies": {
         "@cyhnkckali/vue3-color-picker": "^2.1.5",
