@@ -2,8 +2,8 @@ import { createFetcher, createI18nExtra } from 'vue-fastedgy';
 import { createPinia } from 'pinia';
 import { createI18n } from 'vue-i18n';
 import { createApp } from 'vue';
-import App from '@/admin/App.vue';
-import router from '@/admin/routes';
+import App from '@/console/App.vue';
+import router from '@/console/routes';
 import { useAppContextFetch } from '@/common/composables/fetcher';
 import '@/common/styles/main.css';
 

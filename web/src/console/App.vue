@@ -38,16 +38,16 @@ import 'vue-sonner/style.css';
 import { onMounted } from 'vue';
 import { Toaster } from '@/common/components/ui/sonner';
 import { useAuthStore, initializeLogger } from 'vue-fastedgy';
-import { useAdminStore } from '@/admin/stores/admin';
+import { useConsoleStore } from '@/console/stores/console';
 import { useRoute } from 'vue-router';
-import AppSidebar from '@/admin/components/sidebar/AppSidebar.vue';
+import AppSidebar from '@/console/components/sidebar/AppSidebar.vue';
 import AppBreadcrumb from '@/common/components/AppBreadcrumb.vue';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/common/components/ui/sidebar';
 
 const route = useRoute();
 const authStore = useAuthStore();
 
-useAdminStore();
+useConsoleStore();
 initializeLogger(import.meta.env.VITE_LOG_LEVEL);
 
 onMounted(async () => {

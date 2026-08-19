@@ -43,7 +43,7 @@ async def get_app_context(
 ) -> str | None:
     """
     Dependency that validates the {app} path parameter if present in the route.
-    Enforces appropriate permissions based on app context (admin, app).
+    Enforces appropriate permissions based on app context (console, app).
     Returns 404 if app value is not valid.
     """
     # Get path parameters from the request
@@ -54,7 +54,7 @@ async def get_app_context(
     if not app:
         return None
 
-    if app == "admin":
+    if app == "console":
         _check_admin_permission(user)
     elif app == "app":
         _check_user_permission(user)

@@ -10,7 +10,7 @@ from pydantic import BaseModel, EmailStr
 from fastedgy.depends.security import hash_password
 from models.user import User, UserRole
 
-router = APIRouter(prefix="/users", tags=["admin"])
+router = APIRouter(prefix="/users", tags=["console"])
 
 
 class UserCreateRequest(BaseModel):

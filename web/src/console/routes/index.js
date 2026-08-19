@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthRouterGuard } from '@/common/routes';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL + 'admin'),
+  history: createWebHistory(import.meta.env.BASE_URL + 'console'),
   routes: [
     {
       path: '/',
@@ -25,7 +25,7 @@ const router = createRouter({
     {
       path: '/home',
       name: 'Home',
-      component: () => import('@/admin/views/HomeView.vue'),
+      component: () => import('@/console/views/HomeView.vue'),
       meta: { requiresAuth: true, title: 'Accueil' },
     },
     {

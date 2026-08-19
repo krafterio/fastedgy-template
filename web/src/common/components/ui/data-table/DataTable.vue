@@ -242,7 +242,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  /** Prefix for the API (e.g., '/admin') */
+  /** Prefix for the API (e.g., '/console') */
   prefix: {
     type: String,
     default: '',

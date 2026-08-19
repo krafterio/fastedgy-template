@@ -20,7 +20,7 @@ def app():
     from fastedgy.app import FastEdgy
     from fastedgy.api import auth, auth_simple_registration, dataset, health, storage
     from fastedgy.api_route_model.router import (
-        register_admin_api_route_models,
+        register_console_api_route_models,
         register_api_route_models,
     )
     from fastedgy.api_route_model.standard_actions import (
@@ -54,9 +54,9 @@ def app():
 
     # Base routes
     public_router = APIRouter(prefix="/api")
-    admin_router = APIRouter(
-        prefix="/api/admin",
-        tags=["admin"],
+    console_router = APIRouter(
+        prefix="/api/console",
+        tags=["console"],
         dependencies=[
             Depends(get_current_user),
             is_admin(),
@@ -72,7 +72,7 @@ def app():
 
     # API imports
     from api import me
-    from api.admin import admin_info, user as admin_user
+    from api.console import info as console_info, user as console_user
 
     # Public routes
     public_router.include_router(auth_simple_registration.router)
@@ -89,18 +89,18 @@ def app():
     router.include_router(storage.router)
     router.include_router(storage.manage_router)
 
-    # Admin routes
-    admin_router.include_router(admin_info.router)
-    admin_router.include_router(admin_user.router)
+    # Console routes
+    console_router.include_router(console_info.router)
+    console_router.include_router(console_user.router)
 
     # Generated API models routes
     register_standard_api_route_model_actions()
-    register_admin_api_route_models(admin_router)
+    register_console_api_route_models(console_router)
     register_api_route_models(router)
 
     # Apply routes
     app.include_router(public_router)
-    app.include_router(admin_router)
+    app.include_router(console_router)
     app.include_router(router)
 
     return app

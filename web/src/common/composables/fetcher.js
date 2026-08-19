@@ -19,7 +19,9 @@ export const useAppContextFetch = () => {
         });
       }
 
-      const valPath = contextStore.userType === 'user' ? '/app/' : `/${contextStore.userType}/`;
+      // URL surface derived from the user role: `user` -> business app, `admin` -> console.
+      const surfaceByRole = { user: '/app/', admin: '/console/' };
+      const valPath = surfaceByRole[contextStore.userType] ?? `/${contextStore.userType}/`;
 
       e.detail.url = e.detail.url.replace('/{app}/', valPath);
     }

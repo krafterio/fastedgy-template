@@ -34,18 +34,18 @@ const swPlugin = () => {
     };
 };
 
-const adminPlugin = () => {
+const consolePlugin = () => {
     return {
         name: "configure-server",
         configureServer(server) {
             server.middlewares.use((req, res, next) => {
-                if (req.url === "/admin" || req.url?.startsWith("/admin/")) {
-                    const adminHtml = fs.readFileSync(
-                        resolve(cwd, "admin.html"),
+                if (req.url === "/console" || req.url?.startsWith("/console/")) {
+                    const consoleHtml = fs.readFileSync(
+                        resolve(cwd, "console.html"),
                         "utf-8"
                     );
                     res.setHeader("Content-Type", "text/html");
-                    res.end(adminHtml);
+                    res.end(consoleHtml);
                     return;
                 }
                 next();
@@ -57,7 +57,7 @@ const adminPlugin = () => {
 // https://vite.dev/config/
 const config = {
     envDir: "../",
-    plugins: [vue(), tailwindcss(), swPlugin(), adminPlugin()],
+    plugins: [vue(), tailwindcss(), swPlugin(), consolePlugin()],
     build: {
         outDir: "dist",
         manifest: true,
@@ -67,7 +67,7 @@ const config = {
         rollupOptions: {
             input: {
                 main: resolve(cwd, "index.html"),
-                admin: resolve(cwd, "admin.html"),
+                console: resolve(cwd, "console.html"),
             },
             output: {
                 manualChunks: {

@@ -1,5 +1,5 @@
 from enum import Enum
-from fastedgy.api_route_model.decorators import admin_api_route_model
+from fastedgy.api_route_model.decorators import console_api_route_model
 from fastedgy.models.user import BaseUser
 from fastedgy.i18n import _t
 from fastedgy.orm import fields
@@ -10,7 +10,7 @@ class UserRole(Enum):
     user = "user"
 
 
-@admin_api_route_model(
+@console_api_route_model(
     create=False,
 )
 class User(BaseUser):

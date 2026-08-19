@@ -8,16 +8,16 @@ from models.user import User, UserRole
 router = APIRouter(prefix="/info")
 
 
-class AdminInfo(BaseModel):
+class ConsoleInfo(BaseModel):
     success: bool
     type: UserRole
 
 
 @router.get("")
-async def get_admin_info(
+async def get_console_info(
     current_user: User = Depends(get_current_user),
-) -> AdminInfo:
-    return AdminInfo(
+) -> ConsoleInfo:
+    return ConsoleInfo(
         success=current_user.role == UserRole.admin,
         type=current_user.role if current_user.role else UserRole.user,
     )

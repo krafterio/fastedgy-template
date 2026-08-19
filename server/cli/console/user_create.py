@@ -2,18 +2,18 @@ import click
 from fastedgy import cli
 from fastedgy.depends.security import hash_password
 
-from cli.admin import admin
+from cli.console import console_group
 from fastedgy.cli import console
 from models.user import User, UserRole
 
 
-@admin.command()
+@console_group.command(name="user-create")
 @cli.option("--email", type=str, default=None, help="User email")
 @cli.option("--name", type=str, default=None, help="User full name")
 @cli.option("--role", type=str, default=None, help="User role")
 @cli.lifespan
 @cli.initialize_app
-async def create(email: str | None = None, name: str | None = None, role: str | None = None) -> None:
+async def user_create(email: str | None = None, name: str | None = None, role: str | None = None) -> None:
     """Create a user"""
     try:
         if not email:
@@ -45,6 +45,6 @@ async def create(email: str | None = None, name: str | None = None, role: str | 
         )
         await user.save()
 
-        console.print(f"[green]Successfully created admin user {email}[/green]")
+        console.print(f"[green]Successfully created user {email}[/green]")
     except Exception as e:
         console.print(f"[red]Error: {str(e)}[/red]")

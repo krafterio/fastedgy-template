@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { useAuthStore } from 'vue-fastedgy';
 import { useFetcherService } from 'vue-fastedgy';
 
-export const useAdminStore = defineStore('admin', () => {
+export const useConsoleStore = defineStore('console', () => {
   const loading = ref(false);
   const error = ref(null);
   const authStore = useAuthStore();
@@ -20,7 +20,7 @@ export const useAdminStore = defineStore('admin', () => {
     const baseUrl = window.location.origin;
 
     try {
-      const res = await fetcher.get(`/admin/info`);
+      const res = await fetcher.get(`/console/info`);
       info.value = res.data;
 
       if (info.value.type === 'user') {
