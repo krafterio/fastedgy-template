@@ -5,7 +5,7 @@
 - State: Pinia.
 - Router: Vue Router (SPA).
 - UI: **shadcn-vue** components (built on reka-ui / radix-vue), plus `@headlessui/vue`; styling via Tailwind CSS v4. Add new primitives through shadcn-vue rather than ad-hoc libraries.
-- Code organized by area module: `web/src/{admin,common,main}/`, each with `components/`, `composables/`, `stores/`, `services/`, `views/`.
+- Code organized by area module: `web/src/{console,common,main}/`, each with `components/`, `composables/`, `stores/`, `services/`, `views/`.
 - HTTP: use the project's **fetcher** from `vue-fastedgy` via `useFetcher()` / `useFetcherService()` (not Axios).
 - FastEdgy product docs are exposed via an MCP server named "fastedgy-docs".
 - **vue-fastedgy documentation** (fetcher, bus, composables) is available in FastEdgy docs section "Vue.js".
@@ -57,9 +57,10 @@
    4. **Organization**: Use English text directly as translation key with backticks (e.g. `$t(\`Welcome to our platform\`)`, `$t(\`Email\`)`, `$t(\`Password\`)`)
 
 9) UI tests
-   1. Use `@vue/test-utils` + `vitest` (jsdom) — the installed toolchain; run with `npm test`.
-   2. Mock **services** (which use fetcher), not Pinia stores, for unit tests.
-   3. Every bug fix adds a narrow regression test.
+   1. Use `@vue/test-utils` + `vitest` (jsdom) — the installed toolchain; run with `npm test` (`npm test -- <path>` for one file, `npm run test:watch` while writing). i18n and the `v-tc` directive are installed globally by `web/vitest.setup.js`, so a component carrying text mounts as-is.
+   2. `mount()` the component, assert on what it renders (text, classes, `data-slot`, emitted events) — never on its internals. Files live next to the component as `<Name>.test.js`.
+   3. Mock **services** (which use fetcher), not Pinia stores, for unit tests.
+   4. Every bug fix adds a narrow regression test. Check it fails on the old code before keeping it.
 
 10) Performance
    1. Code-split heavy views (`defineAsyncComponent`).

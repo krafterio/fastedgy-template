@@ -6,10 +6,10 @@ Application FastEdgy (FastAPI + Edgy ORM côté backend, Vue 3 + Vite côté fro
 
 ```
 server/    # Backend FastAPI + Edgy ORM (api/, models/, services/, schemas/, migrations/, queued_tasks/, scheduler/) — CLI kt
-web/       # Web app Vue 3 + Vite, multi-SPA : index.html→src/main, admin.html→src/admin, src/common partagé
+web/       # Web app Vue 3 + Vite, multi-SPA : index.html→src/main, console.html→src/console, src/common partagé
 ```
 
-Entry points : `server/main.py` · `web/src/{main,admin}/main.js`.
+Entry points : `server/main.py` · `web/src/{main,console}/main.js`.
 
 ## Documentation
 
@@ -40,8 +40,14 @@ Premier lancement : `uv sync` · `npm install` · DB : `uv run kt db init`, `uv 
 Spec OpenAPI : `http://localhost:8000/openapi.json` — préflight obligatoire avant tout
 changement d'API (cf. règles fastedgy).
 
-Tests : web app `npm test` (ciblé : `npm test -- <path>`).
-serveur : pas de suite pytest pour l'instant (les règles l'imposent pour les bugfix).
+## Tests
+
+Les deux stacks ont leur suite — un bugfix ajoute son test de régression (cf. règles).
+
+| Stack | Suite complète | Ciblé |
+|-------|----------------|-------|
+| serveur | `uv run pytest -n 4` (`server/tests/`) | `uv run pytest server/tests/test_<x>.py` |
+| web app | `npm test` (vitest) | `npm test -- <path>` |
 
 ## Qualité du code
 
@@ -49,16 +55,17 @@ Auto-correction (lint --fix + format), via slash commands ou outils directs :
 
 - `/fixpy` — `uv run ruff check --fix` + `uv run ruff format`
 - `/fixjs` — `npm run fix` (oxlint --fix) + `npm run format` (oxfmt)
-- `/fix` — les trois stacks d'un coup
+- `/fix` — les deux stacks d'un coup
 
 Pour résoudre des erreurs de lint, lancer le fix de la stack concernée (ou `/fix`)
 pour auto-corriger, puis corriger manuellement ce qui reste.
 Note : ces fix opèrent sur tout le code de la stack — vérifier le diff avant de commiter.
 
+Les deux stacks sont à **zéro** : `npm run lint` sans erreur ni avertissement, `uv run pyright`
+sans erreur. Toute nouvelle remontée est une régression à corriger avant de commiter.
+
 ### Vérification de type Python (Pyright)
 
-Ruff ne fait que du lint ; le typage est vérifié par Pyright. Après toute édition d'un `.py`,
-lancer `uv run pyright <fichier(s) modifié(s)>` et viser **zéro nouvelle erreur** sur ce qu'on
-touche. Le projet a ~900 erreurs préexistantes (typage dynamique Edgy, majoritairement des faux
-positifs) : ne pas chercher à nettoyer le projet entier — seulement ne pas en ajouter et corriger
-celles du code qu'on écrit.
+Ruff ne fait que du lint ; le typage est vérifié par Pyright. Le projet est à **zéro erreur**.
+Après toute édition d'un `.py`, lancer `uv run pyright <fichier(s) modifié(s)>` et le garder à
+zéro : toute nouvelle erreur est une régression à corriger avant de commiter.

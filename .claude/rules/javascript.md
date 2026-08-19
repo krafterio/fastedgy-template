@@ -1,11 +1,12 @@
 # JavaScript rules (Fastedgy API client via fetcher)
 
 ## Project Facts
-- Web Application lives in `web/src/`, split into area modules: `admin/`, `common/`, `main/`. Each area holds its own `components/`, `composables/`, `stores/`, `services/`, `views/`. The API/service layer lives in `<area>/services/*.js` or `<area>/composables/api/*.js` (no flat `src/api/`)
+- Web Application lives in `web/src/`, split into area modules: `console/`, `common/`, `main/`. Each area holds its own `components/`, `composables/`, `stores/`, `services/`, `views/`. The API/service layer lives in `<area>/services/*.js` or `<area>/composables/api/*.js` (no flat `src/api/`)
 - A shared **fetcher** (from `vue-fastedgy`) wraps the Fetch API. Access it via the composables `useFetcher()` / `useFetcherService()`; root setup uses `createFetcher(...)`
 - Base URL is configured via env (e.g., `import.meta.env.VITE_API_BASE_URL`) or fetcher init
 - Auth: Bearer token provided by the auth store/injector read by the fetcher
 - Responses: JSON; pagination may be limit/offset or cursor-based
+- Lint/format: `npm run lint` (oxlint `--type-aware`) + `npm run format` (oxfmt). The web app (`.js` + `.vue`) is at **0 lint error/warning** — keep it at zero: any new finding is a regression to fix before committing
 - Canonical API shapes/semantics are in FastEdgy docs (via MCP server "fastedgy-docs")
 - **vue-fastedgy documentation** (fetcher, bus, etc.) is available in FastEdgy docs section "Vue.js" (accessible via MCP)
 
@@ -43,7 +44,7 @@
       - Consistent error mapping (see #3)
 
 2) Domain services
-   1. Place one service file per domain under the relevant area, e.g. `web/src/admin/services/users.js` or `web/src/common/composables/api/users.js`
+   1. Place one service file per domain under the relevant area, e.g. `web/src/console/services/users.js` or `web/src/common/composables/api/users.js`
    2. Service functions call **fetcher** and return plain JS objects (never raw `Response`)
    3. Use small helpers:
       - `toQuery(params)` → builds query strings, drops empty/undefined
@@ -103,5 +104,9 @@
 
 8) Tests (services & fetcher)
    1. Use `vitest` + `@vue/test-utils` (the installed toolchain; no `msw`). Stub the fetcher/service at the module boundary
-   2. Test **fetcher** once (token injection, timeout/abort, error mapping, retry policy)
-   3. Each domain service includes happy-path and common failures (401, 404, 409, 429)
+   2. Run with `npm test` (`vitest run`, jsdom, configured in `web/vite.config.js`); `npm test -- <path>` for one file, `npm run test:watch` while writing
+   3. Files sit next to what they cover, as `<Name>.test.js` (e.g. `web/src/common/components/ui/badge/Badge.test.js`), and import through the `@/` alias
+   4. Test **fetcher** once (token injection, timeout/abort, error mapping, retry policy)
+   5. Each domain service includes happy-path and common failures (401, 404, 409, 429)
+   6. Every bug fix adds a narrow regression test. Check it fails on the old code before keeping it
+   7. `web/vitest.setup.js` installs i18n and the `v-tc` directive globally: without them `mount()` throws on any component carrying user-facing text. It also inlines `vue-fastedgy`, which reads `import.meta.env` at module scope

@@ -1,5 +1,5 @@
 ---
-description: Auto-fix all three stacks (Python, JS/Vue) then resolve the rest
+description: Auto-fix both stacks (Python, JS/Vue) then resolve the rest
 allowed-tools: Bash(uv run ruff check:*), Bash(uv run ruff format:*), Bash(npm run fix:*), Bash(npm run format:*), Bash(npm run lint:*)
 ---
 Auto-fix every stack, then fix what remains by hand.
