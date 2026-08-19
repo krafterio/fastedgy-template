@@ -36,6 +36,7 @@ ignore = ["B008", "B009", "RUF012"]
 [tool.pytest.ini_options]
 testpaths = ["server/tests"]
 pythonpath = ["server"]
+anyio_mode = "auto"
 
 [tool.uv.sources]
 fastedgy = { git = "https://github.com/krafterio/fastedgy" }
