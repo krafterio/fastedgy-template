@@ -92,6 +92,19 @@ const config = {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
+    test: {
+        environment: "jsdom",
+        setupFiles: ["./vitest.setup.js"],
+        server: {
+            // vue-fastedgy reads `import.meta.env` at module scope. Vitest
+            // externalizes node_modules by default, so Node loads it raw and
+            // `import.meta.env` is undefined. Inlining puts it back through
+            // vite, where the `define` above applies.
+            deps: {
+                inline: ["vue-fastedgy"],
+            },
+        },
+    },
 };
 
 export default defineConfig((mode) => {
