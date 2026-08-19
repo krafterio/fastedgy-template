@@ -5,7 +5,7 @@ The project template for FastEdgy.
 
 ## Prerequisites
 
-- Python 3.13+
+- Python 3.14+
 - UV (Python Package Manager, see the [installation doc](https://docs.astral.sh/uv/getting-started/installation))
 - NVM for Node.js 22.0+ (see the [installation doc](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating))
 - PostgreSQL 17.0+ (with CLI Tools in PATH)

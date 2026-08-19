@@ -9,7 +9,7 @@
 - Backwards-compat: deployed mobile apps still call older API routes — never delete or rename a server endpoint without keeping a compat path
 
 ## Rules
-1. Python target: 3.13. Use type hints everywhere. Use Pydantic for validation. Always use `uv run` to run command.
+1. Python target: 3.14. Use type hints everywhere. Use Pydantic for validation. Always use `uv run` to run command.
 2. Services: Single-responsibility functions; dependency injection via FastAPI Depends; no global state
 3. Edgy ORM: async session patterns; preload relations to avoid N+1; never write in GET handlers
    - Read attributes with `getattr(instance, "field", None)` — avoids lazy-load outside a transaction (`ObjectNotFound`)

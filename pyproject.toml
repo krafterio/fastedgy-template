@@ -5,7 +5,7 @@ authors = [
     {name = "Krafter", email = "developer@krafter.io"},
 ]
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 dynamic = [
     "version"
 ]
@@ -17,6 +17,7 @@ dependencies = [
 dev = [
     "pyright>=1.1.410",
     "pytest>=9.1.1",
+    "pytest-xdist>=3.8.0",
     "ruff >= 0.13",
 ]
 
@@ -27,7 +28,10 @@ exclude = ["web"]
 line-length = 120
 
 [tool.ruff.lint]
-ignore = ["E711", "E712"]
+ignore = ["B008", "B009", "RUF012"]
+
+[tool.ruff.lint.per-file-ignores]
+"server/migrations/versions/*" = ["F401", "I001"]
 
 [tool.pytest.ini_options]
 testpaths = ["server/tests"]
