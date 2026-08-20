@@ -70,6 +70,9 @@ kt db migrate
 kt db init-data
 ```
 
+The reference data is described in `server/data/*.py`, one file per model table,
+and loaded idempotently (create or update).
+
 
 ## Starting the Server
 

@@ -42,8 +42,8 @@ yarn-error.log*
 mobile/
 logs/
 .logs/
-data/
-.data/
+/data/
+/.data/
 
 # Project Template - REMOVE THIS SECTION FOR YOUR PROJECT
 server/migrations/

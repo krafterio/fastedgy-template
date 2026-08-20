@@ -10,7 +10,8 @@ a test that fails halfway leaves nothing behind for the next one.
 
 Reference data (countries, states) is not seeded: build what a test needs through
 `factories.py`. The toolkit's `seed_data` hook is where a project-wide seeder goes
-the day one is needed.
+the day one is needed; it would call fastedgy's `load_data()`, which is what
+`kt db init-data` runs over `server/data/`.
 """
 
 from typing import Any

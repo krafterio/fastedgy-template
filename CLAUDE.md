@@ -5,7 +5,7 @@ Application FastEdgy (FastAPI + Edgy ORM côté backend, Vue 3 + Vite côté fro
 ## Architecture
 
 ```
-server/    # Backend FastAPI + Edgy ORM (api/, models/, services/, schemas/, migrations/, queued_tasks/, scheduler/) — CLI kt
+server/    # Backend FastAPI + Edgy ORM (api/, models/, services/, schemas/, data/, migrations/, queued_tasks/, scheduler/) — CLI kt
 web/       # Web app Vue 3 + Vite, multi-SPA : index.html→src/main, console.html→src/console, src/common partagé
 ```
 
@@ -33,6 +33,7 @@ Premier lancement : `uv sync` · `npm install` · DB : `uv run kt db init`, `uv 
 | `uv run kt serve` | Lance le serveur dev (host 0.0.0.0, port 8000, reload) |
 | `uv run kt db makemigrations -m "..."` | Génère une migration |
 | `uv run kt db migrate` | Applique les migrations |
+| `uv run kt db init-data` | Charge les données de référence décrites dans `server/data/*.py` |
 | `uv run kt trans extract` | Extrait les chaînes traduisibles → fichiers `.po` |
 | `npm run dev` | Lance la web app Vue (vite, port 5173) |
 | `uv run kt --help` | Reste de la CLI FastEdgy (db, queue, ai, push, trans…) |
