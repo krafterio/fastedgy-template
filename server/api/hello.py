@@ -1,10 +1,10 @@
 from datetime import datetime
 
+from config import AppSettings
 from fastapi import APIRouter
 from fastedgy import context
 from fastedgy.dependencies import Inject
 from fastedgy.i18n import I18n, _t
-from main import AppSettings
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/hello", tags=["hello"])

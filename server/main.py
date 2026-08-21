@@ -4,14 +4,7 @@ from typing import cast
 # signals on load. Ruff sees them as unused, they are not.
 import models  # noqa: F401
 import signals  # noqa: F401
-from fastedgy.config import BaseSettings
-
-
-class AppSettings(BaseSettings):
-    title: str = "FastEdgy"
-    available_locales: list[str] = ["fr"]
-    fallback_locale: str = "fr"
-    api_docs: bool = True
+from config import AppSettings
 
 
 def app():
