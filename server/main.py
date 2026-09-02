@@ -24,13 +24,13 @@ def app():
         register_standard_api_route_model_actions,
     )
     from fastedgy.app import FastEdgy
-    from fastedgy.config import init_settings
+    from fastedgy.config import get_project_version, init_settings
     from fastedgy.depends.security import get_current_user
 
     settings = cast(AppSettings, init_settings())
     app = FastEdgy(
         description="Backend API of FastEdgy",
-        version="0.1.0",
+        version=get_project_version(),
         include_in_schema=settings.api_docs,
     )
 
