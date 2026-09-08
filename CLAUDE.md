@@ -11,10 +11,6 @@ web/       # Web app Vue 3 + Vite, multi-SPA : index.html→src/main, console.ht
 
 Entry points : `server/main.py` · `web/src/{main,console}/main.js`.
 
-## Documentation
-
-Doc projet & configs dans `docs/` — index : [docs/README.md](docs/README.md).
-
 ## Règles du projet
 
 @.claude/rules/fastedgy.md
@@ -48,14 +44,14 @@ Les deux stacks ont leur suite — un bugfix ajoute son test de régression (cf.
 | Stack | Suite complète | Ciblé |
 |-------|----------------|-------|
 | serveur | `uv run pytest -n 4` (`server/tests/`) | `uv run pytest server/tests/test_<x>.py` |
-| web app | `npm test` (vitest) | `npm test -- <path>` |
+| web app | `npm test` (vitest, suites dans `web/tests/`) | `npm test -- <path>` |
 
 ## Qualité du code
 
 Auto-correction (lint --fix + format), via slash commands ou outils directs :
 
 - `/fixpy` — `uv run ruff check --fix` + `uv run ruff format`
-- `/fixjs` — `npm run fix` (oxlint --fix) + `npm run format` (oxfmt)
+- `/fixjs` — `npm run fcl` : `npm run fix` (oxlint --fix) + `npm run format` (oxfmt) + `npm run lint`
 - `/fix` — les deux stacks d'un coup
 
 Pour résoudre des erreurs de lint, lancer le fix de la stack concernée (ou `/fix`)

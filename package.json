@@ -12,7 +12,8 @@
         "test:watch": "cd web && vitest",
         "lint": "oxlint . --type-aware",
         "fix": "oxlint --fix",
-        "format": "oxfmt --write ./web/src ./web/vitest.setup.js ./web/vite.config.js"
+        "format": "oxfmt --write ./web/src ./web/tests ./web/vitest.setup.js ./web/vite.config.js",
+        "fcl": "npm run fix && npm run format && npm run lint"
     },
     "dependencies": {
         "@cyhnkckali/vue3-color-picker": "^2.1.5",
@@ -25,7 +26,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "lodash": "^4.17.21",
-        "pinia": "^2.3.1",
+        "pinia": "^4.0.3",
         "reka-ui": "^2.10.4",
         "tailwind-merge": "^3.3.1",
         "tw-animate-css": "^1.3.5",
@@ -33,10 +34,11 @@
         "vue-draggable-plus": "^0.6.0",
         "vue-fastedgy": "github:krafterio/vue-fastedgy#main",
         "vue-i18n": "^11.1.12",
-        "vue-router": "^4.6.4",
+        "vue-router": "^5.3.1",
         "vue-sonner": "^2.0.9"
     },
     "devDependencies": {
+        "@types/node": "^26.5.0",
         "@vitejs/plugin-vue": "^6.0.8",
         "@vue/test-utils": "^2.4.4",
         "jsdom": "^30.0.1",
@@ -45,6 +47,7 @@
         "oxlint-tsgolint": "^7.0.2001",
         "prettier": "3.9.6",
         "tailwindcss": "^4.3.3",
+        "typescript": "^7.0.2",
         "vite": "^8.2.2",
         "vitest": "^5.0.0"
     },

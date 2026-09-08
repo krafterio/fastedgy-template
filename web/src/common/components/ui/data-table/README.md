@@ -11,10 +11,10 @@ Generic data table component with full FastEdgy features support:
 
 ## 📦 Installation
 
-The component is already available in `@/common/components/data-table`.
+The component is already available in `@/common/components/ui/data-table`.
 
 ```javascript
-import { DataTable } from '@/common/components/data-table';
+import { DataTable } from '@/common/components/ui/data-table';
 ```
 
 ## 🚀 Basic Usage
@@ -25,7 +25,7 @@ import { DataTable } from '@/common/components/data-table';
 </template>
 
 <script setup>
-import { DataTable } from '@/common/components/data-table';
+import { DataTable } from '@/common/components/ui/data-table';
 
 const columns = [
   { key: 'name', label: 'Name', sortable: true },
@@ -349,7 +349,7 @@ To simplify simple searches, use the `SimpleSearchInput` component:
 
 ```vue
 <script setup>
-import { DataTable, SimpleSearchInput } from '@/common/components/data-table';
+import { DataTable, SimpleSearchInput } from '@/common/components/ui/data-table';
 </script>
 
 <template>
@@ -658,7 +658,8 @@ Exports data with current filters and sorting.
 
 <script setup>
 import { ref } from 'vue';
-import { DataTable, downloadBlob } from '@/common/components/data-table';
+import { DataTable } from '@/common/components/ui/data-table';
+import { downloadBlob } from 'vue-fastedgy';
 
 const tableRef = ref(null);
 
@@ -698,7 +699,7 @@ const customExport = async () => {
 </template>
 
 <script setup>
-import { DataTable } from '@/common/components/data-table';
+import { DataTable } from '@/common/components/ui/data-table';
 import { Badge } from '@/common/components/ui/badge';
 
 // Simplified columns - sortable and type are auto-detected from metadata
@@ -732,7 +733,7 @@ const columns = [
 </template>
 
 <script setup>
-import { DataTable } from '@/common/components/data-table';
+import { DataTable } from '@/common/components/ui/data-table';
 
 const columns = [
   { key: 'title', label: 'Title' },

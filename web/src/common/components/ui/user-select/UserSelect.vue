@@ -1,7 +1,8 @@
 <template>
   <RelationSelect
     v-model="selectedUser"
-    :endpoint="endpoint"
+    :model="model"
+    :prefix="prefix"
     display-field="name"
     image-field="avatar"
     :filter="filter"
@@ -17,7 +18,7 @@
     <template #selected-item="{ item }">
       <slot name="selected-item" :item="item">
         <Avatar class="h-4 w-4 rounded-md">
-          <AvatarImage v-if="item.avatar" :src="`/storage/download/${item.avatar}`" v-fetcher-src.lazy />
+          <AvatarImage v-if="item.avatar" :src="fileUrl(item.avatar)" v-fetcher-src.lazy />
           <AvatarFallback class="text-xs rounded-md">
             {{ (item.name || item.email)?.charAt(0) || 'U' }}
           </AvatarFallback>
@@ -30,7 +31,7 @@
       <slot name="list-item" :item="item">
         <div class="flex items-center gap-2 w-full">
           <Avatar class="h-6 w-6 rounded-md">
-            <AvatarImage v-if="item.avatar" :src="`/storage/download/${item.avatar}`" v-fetcher-src.lazy />
+            <AvatarImage v-if="item.avatar" :src="fileUrl(item.avatar)" v-fetcher-src.lazy />
             <AvatarFallback class="rounded-md text-xs">
               {{ (item.name || item.email)?.charAt(0) || 'U' }}
             </AvatarFallback>
@@ -51,6 +52,9 @@
 import { computed } from 'vue';
 import { RelationSelect } from '@/common/components/ui/relation-select';
 import { Avatar, AvatarImage, AvatarFallback } from '@/common/components/ui/avatar';
+import { useStorage } from 'vue-fastedgy';
+
+const { fileUrl } = useStorage();
 
 defineOptions({
   name: 'UserSelect',
@@ -61,9 +65,13 @@ const props = defineProps({
     type: [String, Number, Object],
     default: null,
   },
-  endpoint: {
+  model: {
     type: String,
-    default: '/{app}/users',
+    default: 'user',
+  },
+  prefix: {
+    type: String,
+    default: '/{app}',
   },
   clearable: {
     type: Boolean,

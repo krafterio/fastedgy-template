@@ -63,6 +63,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useStorage } from 'vue-fastedgy';
 import { toast } from 'vue-sonner';
 import { Button } from '@/common/components/ui/button';
 import {
@@ -74,7 +75,7 @@ import {
   DialogTitle,
 } from '@/common/components/ui/dialog';
 import { Upload, FileText, X, Loader2 } from '@lucide/vue';
-import { formatFileSize } from '@/common/utils/storage';
+import { formatFileSize } from '@/common/utils/file';
 
 const props = defineProps({
   open: {
@@ -91,11 +92,13 @@ const props = defineProps({
   },
   uploadHandler: {
     type: Function,
-    required: true,
+    default: null,
   },
 });
 
 const emit = defineEmits(['update:open', 'uploaded']);
+
+const { uploadAttachments } = useStorage();
 
 const fileInput = ref(null);
 const selectedFiles = ref([]);
@@ -138,7 +141,7 @@ const handleUpload = async () => {
 
   try {
     isUploading.value = true;
-    await props.uploadHandler(selectedFiles.value);
+    await (props.uploadHandler ?? uploadAttachments)(selectedFiles.value);
 
     toast.success(`${selectedFiles.value.length} fichier(s) uploadé(s) avec succès`);
     emit('uploaded');

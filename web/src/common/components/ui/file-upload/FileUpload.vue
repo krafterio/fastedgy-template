@@ -92,6 +92,7 @@ import { ref, watch } from 'vue';
 import { Button } from '@/common/components/ui/button';
 import { Label } from '@/common/components/ui/label';
 import { Upload, FileText, X } from '@lucide/vue';
+import { formatFileSize } from '@/common/utils/file';
 
 const props = defineProps({
   modelValue: {
@@ -243,13 +244,5 @@ const clearFiles = () => {
   if (fileInput.value) {
     fileInput.value.value = '';
   }
-};
-
-const formatFileSize = (bytes) => {
-  if (bytes === 0) return '0 B';
-  const k = 1024;
-  const sizes = ['B', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 };
 </script>

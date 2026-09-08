@@ -86,7 +86,7 @@
 <script setup>
 import { ref, computed, watch, nextTick, onUnmounted } from 'vue';
 import { debounce } from 'lodash';
-import { useFetcher } from 'vue-fastedgy';
+import { useApiOptions, useStorage } from 'vue-fastedgy';
 import { ChevronsUpDown, X } from '@lucide/vue';
 
 import { Button } from '@/common/components/ui/button';
@@ -103,9 +103,13 @@ const props = defineProps({
     type: [String, Number, Object],
     default: null,
   },
-  endpoint: {
+  model: {
     type: String,
     required: true,
+  },
+  prefix: {
+    type: String,
+    default: '',
   },
   displayField: {
     type: String,
@@ -175,21 +179,11 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'select']);
 
-const fetcher = useFetcher();
 const open = ref(false);
 const searchQuery = ref('');
-const items = ref([]);
-const loading = ref(false);
 const selectedItemData = ref(null); // Simplified: stores complete selected item when loaded
 const selectedIndex = ref(-1); // -1 = not selected, 0 = clearable, 1+ = items
 const triggerButton = ref(null);
-
-// Pagination state for infinite scroll
-const pagination = ref({
-  offset: 0,
-  hasMore: true,
-  total: 0,
-});
 
 // Intersection Observer for infinite scroll
 let observer = null;
@@ -296,42 +290,34 @@ const handleKeydown = (event) => {
   }
 };
 
+const { fileUrl } = useStorage();
+
 const getImageUrl = (imagePath) => {
   if (!imagePath) return '';
   if (imagePath.startsWith('http')) return imagePath;
-  return `/storage/download/${imagePath}`;
+
+  return fileUrl(imagePath);
 };
 
-// Build fields for API requests
-const buildFields = () => {
-  const fields = ['id', props.displayField];
+const fields = [props.displayField, props.imageField, props.subtitleField, ...props.extraFields].filter(Boolean);
 
-  if (props.imageField) {
-    fields.push(props.imageField);
-  }
-
-  if (props.subtitleField) {
-    fields.push(props.subtitleField);
-  }
-
-  if (props.extraFields.length > 0) {
-    fields.push(...props.extraFields);
-  }
-
-  return fields;
-};
-
-const buildFilter = () => {
-  let filter = null;
-
-  if (typeof props.filter === 'function') {
-    filter = props.filter();
-  } else if (Array.isArray(props.filter)) {
-    filter = props.filter;
-  }
-
-  return filter;
-};
+const {
+  items,
+  loading,
+  hasMore,
+  search: searchOptions,
+  loadMore,
+  refresh,
+  resolve,
+} = useApiOptions(props.model, {
+  fields,
+  filter: () => (typeof props.filter === 'function' ? props.filter() : props.filter),
+  searchFilter: (text) => props.searchFilter(props, text),
+  limit: props.limit,
+  minSearchLength: props.minSearchLength,
+  params: { prefix: props.prefix },
+  query: () => props.queryParams,
+});
 
 // Load complete selected item when needed
 const ensureSelectedItemLoaded = async () => {
@@ -352,89 +338,19 @@ const ensureSelectedItemLoaded = async () => {
   // Check if already loaded
   if (selectedItemData.value && selectedItemData.value.id === itemId) return;
 
-  try {
-    const { data } = await fetcher.get(`${props.endpoint}/${itemId}`, {
-      headers: {
-        'X-Fields': buildFields().join(','),
-      },
-    });
-    selectedItemData.value = data;
-  } catch (error) {
-    console.error("Erreur lors du chargement de l'item sélectionné:", error);
-    selectedItemData.value = null;
-  }
-};
-
-// Load items with pagination for infinite scroll
-const fetchItems = async (search = '', append = false) => {
-  if (search && search.length < props.minSearchLength) {
-    return;
-  }
-
-  try {
-    loading.value = true;
-    let filter = buildFilter();
-    const params = { ...props.queryParams };
-    const headers = {
-      'X-Fields': buildFields().join(','),
-    };
-
-    if (search) {
-      // Reset pagination on search
-      pagination.value.offset = 0;
-      pagination.value.hasMore = true;
-      params.limit = props.limit.toString();
-      filter = filter ? ['&', [filter, props.searchFilter(props, search)]] : props.searchFilter(props, search);
-    } else {
-      params.limit = props.limit.toString();
-      params.offset = pagination.value.offset.toString();
-    }
-
-    if (filter) {
-      headers['X-Filter'] = JSON.stringify(filter);
-    }
-
-    const { data } = await fetcher.get(props.endpoint, {
-      headers,
-      params,
-    });
-
-    const newItems = data.items || data.results || data || [];
-    const total = data.total || 0;
-
-    if (append && search === searchQuery.value) {
-      // Append for infinite scroll
-      items.value = [...items.value, ...newItems];
-    } else {
-      // Replace for initial load or search
-      items.value = newItems;
-    }
-
-    // Update pagination
-    pagination.value.total = total;
-    pagination.value.hasMore = newItems.length === parseInt(params.limit) && items.value.length < total;
-    if (!search) {
-      pagination.value.offset += newItems.length;
-    }
-  } catch (error) {
-    console.error('Erreur lors du chargement:', error);
-    items.value = [];
-    pagination.value.hasMore = false;
-  } finally {
-    loading.value = false;
-  }
+  selectedItemData.value = await resolve(itemId);
 };
 
 // Debounced search
-const debouncedFetchItems = debounce((query) => {
-  fetchItems(query, false).then();
+const debouncedSearch = debounce((query) => {
+  void searchOptions(query);
 }, 300);
 
 const onSearchChange = (event) => {
   const query = event.target.value;
   searchQuery.value = query;
   selectedIndex.value = -1; // Reset selection when typing
-  debouncedFetchItems(query);
+  debouncedSearch(query);
 };
 
 // Infinite scroll observer
@@ -443,8 +359,8 @@ const setupIntersectionObserver = () => {
 
   observer = new IntersectionObserver(
     (entries) => {
-      if (entries[0].isIntersecting && pagination.value.hasMore && !loading.value) {
-        fetchItems(searchQuery.value, true);
+      if (entries[0].isIntersecting) {
+        void loadMore();
       }
     },
     { threshold: 0.1 }
@@ -474,9 +390,7 @@ const clearSelection = () => {
 watch(
   () => props.queryParams,
   () => {
-    items.value = [];
-    pagination.value = { offset: 0, hasMore: true, total: 0 };
-    fetchItems(searchQuery.value, false).then();
+    void refresh();
   },
   { deep: true }
 );
@@ -497,7 +411,7 @@ watch(open, (newOpen) => {
   if (newOpen) {
     selectedIndex.value = -1; // Reset selection
     if (items.value.length === 0) {
-      fetchItems();
+      void searchOptions(searchQuery.value);
     }
     nextTick(() => setupIntersectionObserver());
   } else {

@@ -1,6 +1,6 @@
 /**
  * Converts a DatePicker object or date string to ISO date format (YYYY-MM-DD)
- * @param {Object|string|null} dateValue - Date value from DatePicker component or string
+ * @param {object|string|null} dateValue - Date value from DatePicker component or string
  * @returns {string|null} ISO date string or null
  */
 export function formatDateForApi(dateValue) {

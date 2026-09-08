@@ -5,12 +5,11 @@ import { createI18n } from 'vue-i18n';
 import { createApp } from 'vue';
 import App from '@/main/App.vue';
 import router from '@/main/routes';
-import { useAppContextFetch } from '@/common/composables/fetcher';
 import '@/common/styles/main.css';
 
 const app = createApp(App);
 const pinia = createPinia();
-const fetcher = createFetcher();
+const fetcher = createFetcher({ surface: 'app' });
 const i18n = createI18n({
   legacy: false,
   locale: 'fr',
@@ -19,8 +18,6 @@ const i18n = createI18n({
   fallbackFormat: true,
 });
 const i18nExtra = createI18nExtra(i18n);
-
-useAppContextFetch();
 
 app.use(pinia);
 app.use(fetcher);

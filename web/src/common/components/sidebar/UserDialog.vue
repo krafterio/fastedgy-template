@@ -11,7 +11,7 @@
         <div class="flex flex-col items-center space-y-4">
           <div class="relative">
             <Avatar class="h-20 w-20">
-              <AvatarImage :src="getAvatarUrl(formData.avatar)" :alt="formData.name" v-fetcher-src.lazy />
+              <AvatarImage :src="fileUrl(formData.avatar)" :alt="formData.name" v-fetcher-src.lazy />
               <AvatarFallback class="text-lg">
                 {{ getInitials(formData.name) }}
               </AvatarFallback>
@@ -59,8 +59,7 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue';
-import { useAuthStore } from 'vue-fastedgy';
-import { useFetcher } from 'vue-fastedgy';
+import { useAuthStore, useStorage } from 'vue-fastedgy';
 import { Camera, Upload, Loader2 } from '@lucide/vue';
 import {
   Dialog,
@@ -76,6 +75,8 @@ import { Label } from '@/common/components/ui/label';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/components/ui/avatar';
 import { toast } from 'vue-sonner';
 
+const { fileUrl, uploadModelField } = useStorage();
+
 const props = defineProps({
   open: {
     type: Boolean,
@@ -86,7 +87,6 @@ const props = defineProps({
 const emit = defineEmits(['update:open']);
 
 const authStore = useAuthStore();
-const fetcher = useFetcher();
 const fileInput = ref(null);
 const isSaving = ref(false);
 
@@ -116,12 +116,6 @@ function getInitials(name) {
     .slice(0, 2);
 }
 
-function getAvatarUrl(avatarPath) {
-  if (!avatarPath) return null;
-  // Use the download API endpoint
-  return `/storage/download/${avatarPath}`;
-}
-
 function triggerFileInput() {
   fileInput.value?.click();
 }
@@ -142,10 +136,7 @@ async function handleFileChange(event) {
   }
 
   try {
-    const formDataUpload = new FormData();
-    formDataUpload.append('file', file);
-
-    const uploadResponse = await fetcher.post(`/storage/upload/users/${authStore.user.id}/avatar`, formDataUpload);
+    await uploadModelField('user', authStore.user.id, 'avatar', file);
 
     await authStore.refreshUser();
     formData.avatar = authStore.user?.avatar || '';
@@ -173,10 +164,9 @@ async function saveChanges() {
       payload.avatar = formData.avatar;
     }
 
-    const updatedUser = await fetcher.patch('/me', payload);
+    await authStore.updateUser(payload);
 
     toast.success('Profil mis à jour avec succès');
-    await authStore.refreshUser();
     emit('update:open', false);
   } catch (error) {
     console.error('Error updating profile:', error);

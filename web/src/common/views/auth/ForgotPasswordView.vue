@@ -46,7 +46,7 @@ import { Button } from '@/common/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/common/components/ui/card';
 import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
-import { useFetcherService } from 'vue-fastedgy';
+import { useAuthStore } from 'vue-fastedgy';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
@@ -54,7 +54,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const router = useRouter();
-const fetcher = useFetcherService();
+const authStore = useAuthStore();
 
 const email = ref('');
 const loading = ref(false);
@@ -63,7 +63,7 @@ const handleSubmit = async () => {
   if (!email.value) return;
   loading.value = true;
   try {
-    await fetcher.post('/auth/password/forgot', { email: email.value });
+    await authStore.forgotPassword(email.value);
     toast.success(t('Si un compte existe, un email a été envoyé'));
     router.push({ name: 'Login' }).then();
   } catch (e) {

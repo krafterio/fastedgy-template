@@ -8,7 +8,7 @@
             class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <Avatar class="h-8 w-8 rounded-lg">
-              <AvatarImage :src="getAvatarUrl(authStore.user.avatar)" :alt="authStore.user.name" v-fetcher-src.lazy />
+              <AvatarImage :src="fileUrl(authStore.user.avatar)" :alt="authStore.user.name" v-fetcher-src.lazy />
               <AvatarFallback class="rounded-lg bg-secondary/20">
                 {{ authStore.user.name?.charAt(0)?.toUpperCase() || 'U' }}
               </AvatarFallback>
@@ -29,7 +29,7 @@
           <DropdownMenuLabel class="p-0 font-normal">
             <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
               <Avatar class="h-8 w-8 rounded-lg">
-                <AvatarImage :src="getAvatarUrl(authStore.user.avatar)" :alt="authStore.user.name" v-fetcher-src.lazy />
+                <AvatarImage :src="fileUrl(authStore.user.avatar)" :alt="authStore.user.name" v-fetcher-src.lazy />
                 <AvatarFallback class="rounded-lg">
                   {{ authStore.user.name?.charAt(0)?.toUpperCase() || 'U' }}
                 </AvatarFallback>
@@ -75,9 +75,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu';
-import { useAuthStore } from 'vue-fastedgy';
+import { useAuthStore, useStorage } from 'vue-fastedgy';
 import { useSidebar } from '@/common/components/ui/sidebar';
 import UserDialog from './UserDialog.vue';
+
+const { fileUrl } = useStorage();
 
 const { isMobile, state } = useSidebar();
 const authStore = useAuthStore();
@@ -85,10 +87,5 @@ const isUserDialogOpen = ref(false);
 
 function openUserDialog() {
   isUserDialogOpen.value = true;
-}
-
-function getAvatarUrl(avatarPath) {
-  if (!avatarPath) return null;
-  return `/storage/download/${avatarPath}`;
 }
 </script>

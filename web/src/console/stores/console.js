@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { useAuthStore } from 'vue-fastedgy';
-import { useFetcherService } from 'vue-fastedgy';
+import { useConsoleInfoApi } from '@/console/composables/api/console_info';
 
 export const useConsoleStore = defineStore('console', () => {
   const loading = ref(false);
   const error = ref(null);
   const authStore = useAuthStore();
-  const fetcher = useFetcherService();
+  const consoleInfoApi = useConsoleInfoApi();
   const info = ref(null);
 
   async function fetchAdmin() {
@@ -20,8 +20,7 @@ export const useConsoleStore = defineStore('console', () => {
     const baseUrl = window.location.origin;
 
     try {
-      const res = await fetcher.get(`/console/info`);
-      info.value = res.data;
+      info.value = await consoleInfoApi.read();
 
       if (info.value.type === 'user') {
         window.location.href = baseUrl;

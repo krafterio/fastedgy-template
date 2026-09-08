@@ -1,7 +1,8 @@
 <template>
   <RelationSelect
     v-model="selectedCountry"
-    endpoint="/{app}/countries"
+    model="country"
+    prefix="/{app}"
     display-field="name"
     :placeholder="placeholder"
     :search-placeholder="searchPlaceholder"

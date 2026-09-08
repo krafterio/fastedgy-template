@@ -11,10 +11,10 @@ Composant générique d'affichage en grille avec support complet des fonctionnal
 
 ## 📦 Installation
 
-Le composant est déjà disponible dans `@/common/components/data-grid`.
+Le composant est déjà disponible dans `@/common/components/ui/data-grid`.
 
 ```javascript
-import { DataGrid } from '@/common/components/data-grid';
+import { DataGrid } from '@/common/components/ui/data-grid';
 ```
 
 ## 🚀 Usage basique
@@ -48,7 +48,7 @@ import { DataGrid } from '@/common/components/data-grid';
 </template>
 
 <script setup>
-import { DataGrid } from '@/common/components/data-grid';
+import { DataGrid } from '@/common/components/ui/data-grid';
 import { DropdownMenuItem } from '@/common/components/ui/dropdown-menu';
 import { Edit } from '@lucide/vue';
 
@@ -308,7 +308,7 @@ Pour simplifier les recherches simples, utilisez le composant `SimpleSearchInput
 
 ```vue
 <script setup>
-import { DataGrid, SimpleSearchInput } from '@/common/components/data-grid';
+import { DataGrid, SimpleSearchInput } from '@/common/components/ui/data-grid';
 </script>
 
 <template>
@@ -524,7 +524,7 @@ const handleItemClick = (item) => {
 </template>
 
 <script setup>
-import { DataGrid, SimpleSearchInput } from '@/common/components/data-grid';
+import { DataGrid, SimpleSearchInput } from '@/common/components/ui/data-grid';
 import { Button } from '@/common/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSeparator } from '@/common/components/ui/dropdown-menu';
 import { Download, Plus, Edit, Trash2, ShoppingCart } from '@lucide/vue';

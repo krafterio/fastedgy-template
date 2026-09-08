@@ -5,8 +5,8 @@
 - State: Pinia.
 - Router: Vue Router (SPA).
 - UI: **shadcn-vue** components (built on reka-ui / radix-vue), plus `@headlessui/vue`; styling via Tailwind CSS v4. Add new primitives through shadcn-vue rather than ad-hoc libraries.
-- Code organized by area module: `web/src/{console,common,main}/`, each with `components/`, `composables/`, `stores/`, `services/`, `views/`.
-- HTTP: use the project's **fetcher** from `vue-fastedgy` via `useFetcher()` / `useFetcherService()` (not Axios).
+- Code organized by area module: `web/src/{console,common,main}/`, each with `components/`, `composables/`, `stores/`, `views/`. Every server call lives in a `composables/api/`: the models in `common/`, the endpoints of a surface in that surface's area.
+- HTTP: model routes through an **api model** (`common/composables/api/<model>.js`, wrapping `useApiModel()`), lists through **`useDataIterator`**, framework routes through the vue-fastedgy composables (`useStorage`, `useDataset`). The raw **fetcher** (`useFetcher()` / `useFetcherService()`) is for a route that answers to no model. Not Axios.
 - FastEdgy product docs are exposed via an MCP server named "fastedgy-docs".
 - **vue-fastedgy documentation** (fetcher, bus, composables) is available in FastEdgy docs section "Vue.js".
 
@@ -14,16 +14,16 @@
 1) Components
    1. Use `<script setup>` in SFCs.
    2. Keep components focused (one UI responsibility). Use `defineProps` / `defineEmits`.
-   3. Do NOT call the network in `.vue` files; put IO in composables (`<area>/composables/x.js`) or services (`<area>/services/x.js`, `<area>/composables/api/x.js`) that use the **fetcher**.
+   3. A `.vue` never builds a URL and never calls `fetch`. It goes through the api model of the record it shows, through `useDataIterator` for a list, through the api composable of the subject for the rest. Reading in a view is normal, that is where the fields it renders are declared.
 
 2) Stores (Pinia)
-   1. One store per domain (`useUserStore`, `useOrdersStore`, …).
-   2. Stores do not call `fetch` directly—always go through **fetcher** via services in `<area>/services/` or `<area>/composables/api/`.
+   1. One store per domain (`useUserStore`, `useOrdersStore`, …), for state the whole app reads. A screen's own list is not store material.
+   2. Stores do not call `fetch` directly: they go through an api model or an api composable.
    3. Track `status` ('idle' | 'loading' | 'success' | 'error') and a serializable `error`.
 
 3) Async data
-   1. Prefer composables returning `{ data, status, error, refresh }`.
-   2. Deterministic loading states (skeletons/placeholders); avoid infinite spinners.
+   1. A list is held by `useDataIterator`, which hands back `{ items, total, loading, loaded, error, hasMore, loadMore, filter, refresh }`. A record is read by the view through its api model. NEVER wrap either in a composable of its own per screen.
+   2. Deterministic loading states (skeletons/placeholders); avoid infinite spinners. `loaded` is what the skeleton listens to, not `loading`: a search must not blank the list it is filtering.
    3. Use `Suspense` only for top-level views, not micro-interactions.
 
 4) Accessibility & i18n
@@ -58,8 +58,8 @@
 
 9) UI tests
    1. Use `@vue/test-utils` + `vitest` (jsdom) — the installed toolchain; run with `npm test` (`npm test -- <path>` for one file, `npm run test:watch` while writing). i18n and the `v-tc` directive are installed globally by `web/vitest.setup.js`, so a component carrying text mounts as-is.
-   2. `mount()` the component, assert on what it renders (text, classes, `data-slot`, emitted events) — never on its internals. Files live next to the component as `<Name>.test.js`.
-   3. Mock **services** (which use fetcher), not Pinia stores, for unit tests.
+   2. `mount()` the component, assert on what it renders (text, classes, `data-slot`, emitted events) — never on its internals. Files live in `web/tests/`, at the same path as the component under `web/src/`, as `<Name>.test.js`.
+   3. Mock the **api composables** (which use fetcher), not Pinia stores, for unit tests.
    4. Every bug fix adds a narrow regression test. Check it fails on the old code before keeping it.
 
 10) Performance

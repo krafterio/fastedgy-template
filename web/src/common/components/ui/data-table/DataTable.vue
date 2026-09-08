@@ -213,8 +213,9 @@ import {
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu/index.js';
 import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, MoreHorizontal, GripVertical } from '@lucide/vue';
-import { useDataTable } from './useDataTable.js';
-import { getNestedValue, formatCellValue, downloadBlob } from './utils.js';
+import { useI18n } from 'vue-i18n';
+import { toast } from 'vue-sonner';
+import { downloadBlob, formatValidationErrors, getNestedValue, useDataTable } from 'vue-fastedgy';
 import DataTablePagination from './DataTablePagination.vue';
 import DataTableImportDialog from './DataTableImportDialog.vue';
 
@@ -235,6 +236,37 @@ const isSortableColumn = (column) => {
 const getSortPath = (column) => {
   return typeof column.sortable === 'string' ? column.sortable : column.key;
 };
+
+/**
+ * How a cell of the table shows what it holds.
+ *
+ * @param {any} value
+ * @param {{ type?: string, currency?: string }} column
+ * @returns {string}
+ */
+function formatCellValue(value, column) {
+  if (value == null) return '-';
+
+  switch (column.type) {
+    case 'date':
+      return new Date(value).toLocaleDateString('fr-FR');
+    case 'datetime':
+      return new Date(value).toLocaleString('fr-FR');
+    case 'boolean':
+      return value ? 'Oui' : 'Non';
+    case 'number':
+      return typeof value === 'number' ? value.toLocaleString('fr-FR') : value;
+    case 'currency':
+      return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: column.currency || 'EUR',
+      }).format(value);
+    default:
+      return value;
+  }
+}
+
+const { t } = useI18n();
 
 const props = defineProps({
   /** Model name for the API (e.g., 'user') */
@@ -364,9 +396,14 @@ const updateFilter = (newFilter) => {
 
 // Simple export handler for slot
 const handleExport = async (format = 'csv') => {
-  const blob = await exportData(format);
-  const timestamp = new Date().toISOString().slice(0, 10);
-  downloadBlob(blob, `${props.exportFilename}-${timestamp}.${format}`);
+  try {
+    const blob = await exportData(format);
+    const timestamp = new Date().toISOString().slice(0, 10);
+
+    downloadBlob(blob, `${props.exportFilename}-${timestamp}.${format}`);
+  } catch (failure) {
+    toast.error(formatValidationErrors(failure, t('Export failed')));
+  }
 };
 
 // Simple import handler for slot
@@ -375,10 +412,16 @@ const handleImport = () => {
 };
 
 // Handle drag & drop reordering
-const handleDragUpdate = () => {
+const handleDragUpdate = async () => {
   // items.value is already updated by v-model
   const ids = items.value.map((item) => item.id);
-  resequence(ids);
+
+  try {
+    await resequence(ids);
+    toast.success(t('Order updated'));
+  } catch (failure) {
+    toast.error(formatValidationErrors(failure, t('Order update failed')));
+  }
 };
 
 // Expose methods to parent

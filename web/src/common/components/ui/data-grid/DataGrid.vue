@@ -116,9 +116,12 @@ import {
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu/index.js';
 import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, GripVertical, MoreVertical } from '@lucide/vue';
-import { useDataGrid } from './useDataGrid.js';
-import { downloadBlob } from './utils.js';
+import { useI18n } from 'vue-i18n';
+import { toast } from 'vue-sonner';
+import { downloadBlob, formatValidationErrors, useDataGrid } from 'vue-fastedgy';
 import DataGridPagination from './DataGridPagination.vue';
+
+const { t } = useI18n();
 
 const props = defineProps({
   modelName: {
@@ -280,14 +283,25 @@ const updateFilter = (newFilter) => {
 };
 
 const handleExport = async (format = 'csv') => {
-  const blob = await exportData(format);
-  const timestamp = new Date().toISOString().slice(0, 10);
-  downloadBlob(blob, `${props.exportFilename}-${timestamp}.${format}`);
+  try {
+    const blob = await exportData(format);
+    const timestamp = new Date().toISOString().slice(0, 10);
+
+    downloadBlob(blob, `${props.exportFilename}-${timestamp}.${format}`);
+  } catch (failure) {
+    toast.error(formatValidationErrors(failure, t('Export failed')));
+  }
 };
 
-const handleDragUpdate = () => {
+const handleDragUpdate = async () => {
   const ids = items.value.map((item) => item.id);
-  resequence(ids);
+
+  try {
+    await resequence(ids);
+    toast.success(t('Order updated'));
+  } catch (failure) {
+    toast.error(formatValidationErrors(failure, t('Order update failed')));
+  }
 };
 
 defineExpose({

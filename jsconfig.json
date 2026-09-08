@@ -1,8 +1,22 @@
 {
     "compilerOptions": {
+        "allowJs": true,
+        "checkJs": false,
+        "noEmit": true,
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "target": "ES2020",
+        "skipLibCheck": true,
+        "strict": false,
+        "strictNullChecks": true,
+        "types": [],
         "paths": {
-            "@/*": ["./web/src/*"]
+            "@/*": [
+                "./web/src/*"
+            ]
         }
     },
-    "include": ["./web/src/**/*"]
+    "include": [
+        "./web/src/**/*"
+    ]
 }

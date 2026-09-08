@@ -59,7 +59,7 @@ import { Button } from '@/common/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/common/components/ui/card';
 import { Input } from '@/common/components/ui/input';
 import { Label } from '@/common/components/ui/label';
-import { useFetcherService } from 'vue-fastedgy';
+import { useAuthStore } from 'vue-fastedgy';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue-sonner';
@@ -69,7 +69,7 @@ import { formatValidationErrors } from 'vue-fastedgy';
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const fetcher = useFetcherService();
+const authStore = useAuthStore();
 
 const token = ref('');
 const password = ref('');
@@ -85,7 +85,7 @@ onMounted(async () => {
   }
   token.value = String(t);
   try {
-    await fetcher.post('/auth/password/validate', { token: token.value });
+    await authStore.validatePasswordToken(token.value);
   } catch (e) {
     invalid.value = true;
   }
@@ -95,7 +95,7 @@ const handleSubmit = async () => {
   if (!password.value || password.value !== confirm.value) return;
   loading.value = true;
   try {
-    await fetcher.post('/auth/password/reset', { token: token.value, password: password.value });
+    await authStore.resetPassword(token.value, password.value);
     toast.success(t('Mot de passe mis à jour'));
     router.push({ name: 'Login' }).then();
   } catch (e) {
