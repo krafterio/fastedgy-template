@@ -50,7 +50,7 @@ import { DataGrid } from '@/common/components/data-grid';
 <script setup>
 import { DataGrid } from '@/common/components/data-grid';
 import { DropdownMenuItem } from '@/common/components/ui/dropdown-menu';
-import { Edit } from 'lucide-vue-next';
+import { Edit } from '@lucide/vue';
 
 const sortOptions = [
   { label: 'Nom', value: 'name:asc' },
@@ -527,7 +527,7 @@ const handleItemClick = (item) => {
 import { DataGrid, SimpleSearchInput } from '@/common/components/data-grid';
 import { Button } from '@/common/components/ui/button';
 import { DropdownMenuItem, DropdownMenuSeparator } from '@/common/components/ui/dropdown-menu';
-import { Download, Plus, Edit, Trash2, ShoppingCart } from 'lucide-vue-next';
+import { Download, Plus, Edit, Trash2, ShoppingCart } from '@lucide/vue';
 
 const sortOptions = [
   { label: 'Nom', value: 'name:asc' },

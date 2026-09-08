@@ -73,7 +73,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/common/components/ui/dialog';
-import { Upload, FileText, X, Loader2 } from 'lucide-vue-next';
+import { Upload, FileText, X, Loader2 } from '@lucide/vue';
 import { formatFileSize } from '@/common/utils/storage';
 
 const props = defineProps({

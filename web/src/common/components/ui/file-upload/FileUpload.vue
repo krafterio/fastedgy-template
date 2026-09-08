@@ -91,7 +91,7 @@
 import { ref, watch } from 'vue';
 import { Button } from '@/common/components/ui/button';
 import { Label } from '@/common/components/ui/label';
-import { Upload, FileText, X } from 'lucide-vue-next';
+import { Upload, FileText, X } from '@lucide/vue';
 
 const props = defineProps({
   modelValue: {

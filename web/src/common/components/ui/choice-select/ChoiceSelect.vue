@@ -60,7 +60,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { debounce } from 'lodash';
-import { ChevronsUpDown, X } from 'lucide-vue-next';
+import { ChevronsUpDown, X } from '@lucide/vue';
 
 import { Button } from '@/common/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/common/components/ui/popover';

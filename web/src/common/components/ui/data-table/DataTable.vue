@@ -212,7 +212,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu/index.js';
-import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, MoreHorizontal, GripVertical } from 'lucide-vue-next';
+import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, MoreHorizontal, GripVertical } from '@lucide/vue';
 import { useDataTable } from './useDataTable.js';
 import { getNestedValue, formatCellValue, downloadBlob } from './utils.js';
 import DataTablePagination from './DataTablePagination.vue';

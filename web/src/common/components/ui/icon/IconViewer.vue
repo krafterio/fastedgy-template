@@ -52,7 +52,7 @@ const iconComponent = ref(null);
 
 const loadIcon = async (name) => {
   try {
-    const module = await import('lucide-vue-next');
+    const module = await import('@lucide/vue');
     iconComponent.value = module[name] || module[props.defaultIcon] || null;
   } catch (error) {
     iconComponent.value = null;

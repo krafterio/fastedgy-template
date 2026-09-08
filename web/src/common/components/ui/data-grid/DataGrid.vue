@@ -115,7 +115,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu/index.js';
-import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, GripVertical, MoreVertical } from 'lucide-vue-next';
+import { ArrowUpDown, ArrowUp, ArrowDown, Loader2, GripVertical, MoreVertical } from '@lucide/vue';
 import { useDataGrid } from './useDataGrid.js';
 import { downloadBlob } from './utils.js';
 import DataGridPagination from './DataGridPagination.vue';

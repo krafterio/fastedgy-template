@@ -1,5 +1,5 @@
 <script setup>
-import { MoreHorizontal } from 'lucide-vue-next';
+import { MoreHorizontal } from '@lucide/vue';
 import { cn } from '@/common/lib/utils';
 
 const props = defineProps({

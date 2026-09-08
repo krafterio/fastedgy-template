@@ -28,7 +28,7 @@
 
 <script setup>
 import { useRoute, RouterLink } from 'vue-router';
-import { Home } from 'lucide-vue-next';
+import { Home } from '@lucide/vue';
 
 import Sidebar from '@/common/components/sidebar/Sidebar.vue';
 import SidebarUserInfo from '@/common/components/sidebar/SidebarUserInfo.vue';

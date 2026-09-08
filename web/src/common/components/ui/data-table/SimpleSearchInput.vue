@@ -18,7 +18,7 @@
 import { ref } from 'vue';
 import { Input } from '@/common/components/ui/input/index.js';
 import { Button } from '@/common/components/ui/button/index.js';
-import { Search, X } from 'lucide-vue-next';
+import { Search, X } from '@lucide/vue';
 
 const props = defineProps({
   /** Function to update the filter */

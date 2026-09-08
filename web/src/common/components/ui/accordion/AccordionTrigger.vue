@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from '@vueuse/core';
-import { ChevronDown } from 'lucide-vue-next';
+import { ChevronDown } from '@lucide/vue';
 import { AccordionHeader, AccordionTrigger } from 'reka-ui';
 import { cn } from '@/common/lib/utils';
 

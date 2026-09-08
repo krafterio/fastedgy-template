@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu/index.js';
-import { ChevronDown, X } from 'lucide-vue-next';
+import { ChevronDown, X } from '@lucide/vue';
 
 const props = defineProps({
   /**

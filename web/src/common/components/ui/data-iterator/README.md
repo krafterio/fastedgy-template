@@ -355,7 +355,7 @@ Composant pour afficher des actions sur les éléments sélectionnés avec badge
 ```vue
 <script setup>
 import { SelectionActions } from '@/common/components/data-iterator';
-import { Trash, Download, Archive } from 'lucide-vue-next';
+import { Trash, Download, Archive } from '@lucide/vue';
 
 const { selection } = useDataTable('products', {
   enableSelection: true,
@@ -405,7 +405,7 @@ const exportSelected = (sel) => {
 ```vue
 <script setup>
 import { SelectionActions, SelectionAction, SelectionSeparator } from '@/common/components/data-iterator';
-import { Trash, Download, Archive } from 'lucide-vue-next';
+import { Trash, Download, Archive } from '@lucide/vue';
 
 const { selection } = useDataTable('products', {
   enableSelection: true,
@@ -434,7 +434,7 @@ const { selection } = useDataTable('products', {
 ```javascript
 {
     name: 'Action name',         // Requis
-    icon: IconComponent,         // Optionnel (composant lucide-vue-next)
+    icon: IconComponent,         // Optionnel (composant @lucide/vue)
     handle: (selection) => {},   // Requis - Fonction callback recevant selection
     disabled: false,             // Optionnel
     separator: false             // Optionnel - Si true, affiche un séparateur

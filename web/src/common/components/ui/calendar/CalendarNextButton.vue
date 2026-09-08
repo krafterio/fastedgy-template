@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from '@vueuse/core';
-import { ChevronRight } from 'lucide-vue-next';
+import { ChevronRight } from '@lucide/vue';
 import { CalendarNext, useForwardProps } from 'reka-ui';
 import { cn } from '@/common/lib/utils';
 import { buttonVariants } from '@/common/components/ui/button';

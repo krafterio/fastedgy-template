@@ -36,5 +36,5 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/common/components/ui/dropdown-menu';
-import { ChevronDown, Check } from 'lucide-vue-next';
+import { ChevronDown, Check } from '@lucide/vue';
 </script>

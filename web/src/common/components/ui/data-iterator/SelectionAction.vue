@@ -13,7 +13,7 @@ defineProps({
   },
 
   /**
-   * Icon component (from lucide-vue-next)
+   * Icon component (from @lucide/vue)
    */
   icon: {
     type: Object,

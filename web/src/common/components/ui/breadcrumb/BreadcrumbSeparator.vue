@@ -1,5 +1,5 @@
 <script setup>
-import { ChevronRight } from 'lucide-vue-next';
+import { ChevronRight } from '@lucide/vue';
 import { cn } from '@/common/lib/utils';
 
 const props = defineProps({

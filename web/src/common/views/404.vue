@@ -17,7 +17,7 @@
 
 <script setup>
 import Button from '@/common/components/ui/button/Button.vue';
-import { RouteOff } from 'lucide-vue-next';
+import { RouteOff } from '@lucide/vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

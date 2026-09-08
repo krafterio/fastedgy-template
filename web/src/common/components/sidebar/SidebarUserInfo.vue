@@ -64,7 +64,7 @@
 <script setup>
 import { ref } from 'vue';
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/common/components/ui/sidebar';
-import { ChevronsUpDown, LogOut, User, Settings } from 'lucide-vue-next';
+import { ChevronsUpDown, LogOut, User, Settings } from '@lucide/vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/common/components/ui/avatar';
 import {
   DropdownMenu,

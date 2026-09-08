@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from '@vueuse/core';
-import { Check } from 'lucide-vue-next';
+import { Check } from '@lucide/vue';
 import { DropdownMenuCheckboxItem, DropdownMenuItemIndicator, useForwardPropsEmits } from 'reka-ui';
 import { cn } from '@/common/lib/utils';
 

@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from '@vueuse/core';
-import { X } from 'lucide-vue-next';
+import { X } from '@lucide/vue';
 import { DialogClose, DialogContent, DialogOverlay, DialogPortal, useForwardPropsEmits } from 'reka-ui';
 import { cn } from '@/common/lib/utils';
 

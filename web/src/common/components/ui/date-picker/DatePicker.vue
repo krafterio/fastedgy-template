@@ -126,7 +126,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/common/components/ui/select';
 import { Button } from '@/common/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/common/components/ui/popover';
-import { CalendarIcon } from 'lucide-vue-next';
+import { CalendarIcon } from '@lucide/vue';
 import { DateFormatter } from '@internationalized/date';
 
 const props = defineProps({

@@ -125,7 +125,7 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
-import { Search, Loader } from 'lucide-vue-next';
+import { Search, Loader } from '@lucide/vue';
 import { ScrollArea } from '@/common/components/ui/scroll-area';
 import { IconViewer, LazyIcon } from './index.js';
 import { iconCategories, searchIcons, getTotalIconCount } from '@/common/config/icons';

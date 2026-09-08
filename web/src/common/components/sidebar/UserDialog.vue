@@ -61,7 +61,7 @@
 import { ref, reactive, watch } from 'vue';
 import { useAuthStore } from 'vue-fastedgy';
 import { useFetcher } from 'vue-fastedgy';
-import { Camera, Upload, Loader2 } from 'lucide-vue-next';
+import { Camera, Upload, Loader2 } from '@lucide/vue';
 import {
   Dialog,
   DialogContent,

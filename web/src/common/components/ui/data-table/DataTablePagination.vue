@@ -71,7 +71,7 @@
 import { computed } from 'vue';
 import { Button } from '@/common/components/ui/button/index.js';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/common/components/ui/select/index.js';
-import { ChevronLeft, ChevronRight } from 'lucide-vue-next';
+import { ChevronLeft, ChevronRight } from '@lucide/vue';
 
 const props = defineProps({
   page: {

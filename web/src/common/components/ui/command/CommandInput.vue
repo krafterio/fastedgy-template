@@ -1,6 +1,6 @@
 <script setup>
 import { reactiveOmit } from '@vueuse/core';
-import { Search } from 'lucide-vue-next';
+import { Search } from '@lucide/vue';
 import { ListboxFilter, useForwardProps } from 'reka-ui';
 import { cn } from '@/common/lib/utils';
 import { useCommand } from '.';

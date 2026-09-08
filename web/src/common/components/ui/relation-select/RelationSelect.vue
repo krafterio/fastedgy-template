@@ -87,7 +87,7 @@
 import { ref, computed, watch, nextTick, onUnmounted } from 'vue';
 import { debounce } from 'lodash';
 import { useFetcher } from 'vue-fastedgy';
-import { ChevronsUpDown, X } from 'lucide-vue-next';
+import { ChevronsUpDown, X } from '@lucide/vue';
 
 import { Button } from '@/common/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/common/components/ui/popover';

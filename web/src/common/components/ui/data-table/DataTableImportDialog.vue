@@ -158,7 +158,7 @@ import {
 import { Button } from '@/common/components/ui/button/index.js';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/common/components/ui/card/index.js';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/common/components/ui/table/index.js';
-import { Upload, FileSpreadsheet, X, Loader2, AlertCircle, Check } from 'lucide-vue-next';
+import { Upload, FileSpreadsheet, X, Loader2, AlertCircle, Check } from '@lucide/vue';
 
 const props = defineProps({
   modelName: {
