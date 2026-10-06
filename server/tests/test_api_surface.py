@@ -17,6 +17,13 @@ async def test_a_public_route_answers_without_a_token(setup_http: Any) -> None:
     assert response.status_code == 200, response.text
 
 
+async def test_the_health_check_answers_without_a_token(setup_http: Any) -> None:
+    response = await setup_http.get("/api/health")
+
+    assert response.status_code == 200, response.text
+    assert response.json() == {"status": "ok"}
+
+
 async def test_the_console_reaches_its_own_surface(console: Any) -> None:
     response = await console.get("/api/console/info")
 

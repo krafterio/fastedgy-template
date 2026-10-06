@@ -98,13 +98,12 @@
     <body>
         <div class="email-container">
             <div class="header">
+                {% if base_url_app %}
                 <img
-                    src="https://app.kascade.io/favicon.png"
+                    src="{{ base_url_app }}/favicon.png"
                     alt="FastEdgy"
                     height="40"
                     style="display: block; margin: 0"
                 />
+                {% endif %}
             </div>
-        </div>
-    </body>
-</html>

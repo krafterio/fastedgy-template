@@ -11,7 +11,7 @@
 - Responses: JSON, the payload under `.data`. Pagination is limit/offset, and the server caps a list at 50 rows by default: an unbounded `list()` truncates without saying so
 - Canonical API shapes/semantics are in FastEdgy docs (via MCP server "fastedgy-docs")
 - **vue-fastedgy documentation** (fetcher, bus, etc.) is available in FastEdgy docs section "Vue.js" (accessible via MCP)
-- Lint/format: `npm run fcl` (fix, format, then lint), or `npm run lint` (oxlint `--type-aware`) and `npm run format` (oxfmt) on their own. The web app (`.js` + `.vue`) is at **0 lint error/warning** — keep it at zero: any new finding is a regression to fix before committing
+- Lint/format: `npm run fcl` (fix, format, then lint), or `npm run lint` (oxlint `--type-aware --deny-warnings`, so a warning fails it) and `npm run format` (oxfmt) on their own. The web app (`.js` + `.vue`) is at **0 lint error/warning** — keep it at zero: any new finding is a regression to fix before committing
 
 ## Api models
 1) BEFORE creating or editing an api model or an api composable, MUST read the OpenAPI spec (`http://localhost:8000/openapi.json`) and locate the target operation.

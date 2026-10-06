@@ -9,15 +9,22 @@ toolkit creates and drops itself: the development database is never touched, and
 a test that fails halfway leaves nothing behind for the next one.
 
 Reference data (countries, states) is not seeded: build what a test needs through
-`factories.py`. The toolkit's `seed_data` hook is where a project-wide seeder goes
-the day one is needed; it would call fastedgy's `load_data()`, which is what
-`kt db init-data` runs over `server/data/`.
+`factories.py`. The toolkit's `seed_data` hook, which would reload `server/data/`
+before each test the way `kt db init-data` does, is turned off below; it is where a
+project-wide seeder goes the day one is needed.
 """
 
+from collections.abc import Callable
 from typing import Any
 
 import httpx
 import pytest
+
+
+@pytest.fixture
+def seed_data() -> Callable[[], Any] | None:
+    """Nothing reloaded before each test."""
+    return None
 
 
 @pytest.fixture

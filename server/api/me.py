@@ -21,9 +21,6 @@ async def update_users_me(
     if user_data.name:
         current_user.name = user_data.name
 
-    if user_data.email:
-        current_user.name = user_data.email
-
     if user_data.avatar:
         current_user.avatar = user_data.avatar
 

@@ -4,7 +4,8 @@
 - FastEdgy product docs are exposed via an MCP server named "fastedgy-docs"
 - Documentation covers FastAPI patterns, EdgyORM usage, dependency injection, and FastEdgy framework features
 - Server code is structured under `server/` (`api/`, `models/`, `services/`, `schemas/`, `migrations/`, `queued_tasks/`, `scheduler/`, `signals/`); entry point `server/main.py`, CLI `kt` (run via `uv run kt`)
-- Backend is i18n-aware: wrap user-facing strings (HTTPException details, emails) with `_t(...)`
+- Backend is i18n-aware: wrap user-facing strings (HTTPException details, emails) with `_t(...)`. A label declared at class level (model `Meta.label`, field `label=`) takes `_ts(...)`, which FastEdgy renders when it first builds the metadata, at the first request that reads them: `_t` there would render it at import, in the fallback language. The metadata then stay cached for the process, in the language of that first request
+- Every project model declares `Meta.label` and `Meta.label_plural`, and every field it declares its `label=`, each with `_ts(...)`: a label left out is derived from the class or field name and never translated, and `server/tests/test_model_labels.py` fails on it
 - Service classes use short names — no "Service" suffix (e.g. `Stripe`, `IAP`, not `StripeService`)
 - Backwards-compat: deployed mobile apps still call older API routes — never delete or rename a server endpoint without keeping a compat path
 
@@ -14,7 +15,10 @@
 3. Edgy ORM: async session patterns; preload relations to avoid N+1; never write in GET handlers
    - Read attributes with `getattr(instance, "field", None)` — avoids lazy-load outside a transaction (`ObjectNotFound`)
    - Save: set the attribute then `await instance.save()` (no `instance.update()` — it doesn't exist)
-   - Default DB isolation is SERIALIZABLE: handle `SerializationError` via retry — `@transaction` for pure-DB, `with_transaction()` when external I/O is involved
+   - Default DB isolation is READ COMMITTED (FastEdgy's `database_isolation_level`), not SERIALIZABLE: a second writer
+     waits for the first instead of failing, and a read-modify-write that must not lose an update guards its `UPDATE`
+     with a condition or asks for `isolation_level="SERIALIZABLE"`. `@transaction` (pure DB) and `with_transaction()`
+     (the DB part only, external I/O kept outside) replay the unit on a serialization failure or a deadlock
 4. Errors: Raise HTTPException with a clear `detail` (i18n via `_t(...)` when user-facing); validate inputs with pydantic; log at error boundary
 5. Tests: Pytest + anyio for async (`uv run pytest`, `-n 4` to parallelize; suite in `server/tests/`, fixtures in `conftest.py`, model builders in `factories.py`); one test module per feature; add a regression test for every bugfix
    - FastEdgy's test toolkit is loaded as a plugin by the root `conftest.py`. It creates a `<database>-test` of its own, truncates it before each test and drops it at the end — the development database is never touched

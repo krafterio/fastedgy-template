@@ -18,6 +18,7 @@ collect_changed() {
   done < <(
     {
       git -C "$root" diff --name-only
+      git -C "$root" diff --cached --name-only
       git -C "$root" ls-files --others --exclude-standard
     } 2>/dev/null | sort -u
   )

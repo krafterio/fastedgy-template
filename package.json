@@ -10,7 +10,7 @@
         "preview": "cd web && vite preview",
         "test": "cd web && vitest run",
         "test:watch": "cd web && vitest",
-        "lint": "oxlint . --type-aware",
+        "lint": "oxlint . --type-aware --deny-warnings",
         "fix": "oxlint --fix",
         "format": "oxfmt --write ./web/src ./web/tests ./web/vitest.setup.js ./web/vite.config.js",
         "fcl": "npm run fix && npm run format && npm run lint"

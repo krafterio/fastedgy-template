@@ -7,7 +7,7 @@ The project template for FastEdgy.
 
 - Python 3.14+
 - UV (Python Package Manager, see the [installation doc](https://docs.astral.sh/uv/getting-started/installation))
-- NVM for Node.js 22.0+ (see the [installation doc](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating))
+- NVM for Node.js 24, the version pinned in `.nvmrc` (see the [installation doc](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating))
 - PostgreSQL 17.0+ (with CLI Tools in PATH)
 
 
@@ -36,8 +36,8 @@ source .venv/bin/activate  # On macOS/Linux
 4. Install app dependencies:
 
 ```bash
-nvm install 22
-nvm use 22
+nvm install
+nvm use
 npm install
 ```
 
@@ -51,24 +51,14 @@ cp .env.tpl .env
 
 ## Database Setup
 
-1. Create PostgreSQL database:
+Create the database, initialize and apply the migrations, then load the reference data:
 
 ```bash
-kt db createdb
+kt db setup
 ```
 
-2. Initialize migrations:
-
-```bash
-kt db init
-kt db makemigrations -m "init project"
-kt db migrate
-```
-
-3. Initialize data of database:
-```bash
-kt db init-data
-```
+Use `kt db setup`, not `kt db init`: `kt db init` is Edgy's own command, and the migration
+repository it creates misses the FastEdgy post-processing of the migrations.
 
 The reference data is described in `server/data/*.py`, one file per model table,
 and loaded idempotently (create or update).
@@ -228,4 +218,4 @@ This project uses the **[Conventional Commits](https://www.conventionalcommits.o
 
 ## License
 
-This project is licensed under Proprietary License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for details.

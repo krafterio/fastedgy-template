@@ -26,7 +26,7 @@ export const useConsoleStore = defineStore('console', () => {
         window.location.href = baseUrl;
       }
     } catch (err) {
-      if (err.response.status === 403) {
+      if (err.response?.status === 403) {
         window.location.href = baseUrl;
       }
 

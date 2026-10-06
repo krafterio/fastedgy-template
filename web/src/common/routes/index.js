@@ -2,19 +2,20 @@ import { bus } from 'vue-fastedgy';
 import { useAuthStore } from 'vue-fastedgy';
 
 export function useAuthRouterGuard(router) {
-  router.beforeEach(async (to, _, next) => {
+  router.beforeEach(async (to) => {
     const authStore = useAuthStore();
-    let guard = undefined;
 
     await authStore.checkUser();
 
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-      guard = { name: 'Login' };
-    } else if (to.meta.requiresGuest && authStore.isAuthenticated) {
-      guard = { name: 'Home' };
+      return { name: 'Login' };
     }
 
-    next(guard);
+    if (to.meta.requiresGuest && authStore.isAuthenticated) {
+      return { name: 'Home' };
+    }
+
+    return true;
   });
 
   bus.addEventListener('auth:logged', async () => {

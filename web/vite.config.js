@@ -105,7 +105,7 @@ const config = {
   },
 };
 
-export default defineConfig((mode) => {
+export default defineConfig(({ mode }) => {
   const envDir = resolve(cwd, config.envDir);
   const env = loadEnv(mode, envDir, '');
   const viteApiUrl = env.VITE_API_URL || env.BASE_URL || '';

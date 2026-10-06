@@ -1,5 +1,5 @@
 from fastedgy.api_route_model import api_route_model
-from fastedgy.i18n import _t
+from fastedgy.i18n import _ts
 from fastedgy.models.base import BaseModel
 from fastedgy.orm import fields
 from fastedgy.orm.order_by import OrderByList
@@ -9,16 +9,16 @@ from fastedgy.orm.order_by import OrderByList
 class Country(BaseModel):
     class Meta:  # type: ignore
         tablename = "countries"
-        label = _t("Pays")
-        label_plural = _t("Pays")
+        label = _ts("Pays")
+        label_plural = _ts("Pays")
         default_order_by: OrderByList = [("name", "asc")]
 
     name: str | None = fields.CharField(
-        label=_t("Nom"),
+        label=_ts("Nom"),
         max_length=255,
     )  # type: ignore
 
     code: str | None = fields.CharField(
-        label=_t("Code"),
+        label=_ts("Code"),
         max_length=3,
     )  # type: ignore

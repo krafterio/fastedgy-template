@@ -4,7 +4,7 @@
       <template v-for="(item, index) in items" :key="item.name">
         <BreadcrumbItem>
           <template v-if="!item.isCurrent">
-            <BreadcrumbLink>
+            <BreadcrumbLink as-child>
               <RouterLink :to="item.to" class="hover:text-secondary">{{ item.label }}</RouterLink>
             </BreadcrumbLink>
           </template>
@@ -76,27 +76,21 @@ const resolveLabel = (record) => {
 
 const buildChain = () => {
   const list = [];
-  let currentRouteName = route.name;
-
-  if (dynamicParent.value) {
-    currentRouteName = dynamicParent.value.name;
-  }
-
-  let current = routesByName.value.get(currentRouteName);
   const guard = new Set();
+  let current = routesByName.value.get(dynamicParent.value ? dynamicParent.value.name : route.meta?.parent);
+
   while (current && !guard.has(current.name)) {
     guard.add(current.name);
     list.push(current);
-    const parentName = current.meta && current.meta.parent;
-    if (!parentName) break;
-    current = routesByName.value.get(parentName);
+    current = routesByName.value.get(current.meta?.parent);
   }
+
   return list.reverse();
 };
 
 const items = computed(() => {
   const chain = buildChain();
-  const result = chain.map((rec, idx) => {
+  const result = chain.map((rec) => {
     const isCurrent = false;
     let label = resolveLabel(rec);
     let to = { name: rec.name };

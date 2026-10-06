@@ -67,6 +67,7 @@ def app():
     from api.console import user as console_user
 
     # Public routes
+    public_router.include_router(health.router)
     public_router.include_router(auth_simple_registration.router)
     public_router.include_router(auth.public_router)
     public_router.include_router(hello.router)
@@ -74,7 +75,6 @@ def app():
     # Authenticated routes
     router.include_router(auth.router)
     router.include_router(dataset.router)
-    router.include_router(health.router)
     router.include_router(me.router)
     router.include_router(storage.attachments_router)
     router.include_router(storage.manage_attachments_router)

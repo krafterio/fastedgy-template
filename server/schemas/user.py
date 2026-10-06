@@ -12,5 +12,6 @@ class Me(UserBase):
     role: str | None = None
 
 
-class MeUpdate(UserBase):
-    pass
+class MeUpdate(BaseModel):
+    name: str | None = None
+    avatar: str | None = None

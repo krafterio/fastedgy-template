@@ -22,7 +22,8 @@ Entry points : `server/main.py` · `web/src/{main,console}/main.js`.
 
 Outils natifs uniquement (le `justfile` est un helper dev optionnel — ne pas l'utiliser ici).
 
-Premier lancement : `uv sync` · `npm install` · DB : `uv run kt db init`, `uv run kt db createdb`, `uv run kt db makemigrations`, `uv run kt db migrate`, `uv run kt db init-data`.
+Premier lancement : `uv sync` · `npm install` · DB : `uv run kt db setup` (crée la base, initialise et applique les
+migrations, charge les données de référence ; et non `kt db init`, qui perd le post-traitement FastEdgy des migrations).
 
 | Commande | Description |
 |----------|-------------|
@@ -32,7 +33,7 @@ Premier lancement : `uv sync` · `npm install` · DB : `uv run kt db init`, `uv 
 | `uv run kt db init-data` | Charge les données de référence décrites dans `server/data/*.py` |
 | `uv run kt trans extract` | Extrait les chaînes traduisibles → fichiers `.po` |
 | `npm run dev` | Lance la web app Vue (vite, port 5173) |
-| `uv run kt --help` | Reste de la CLI FastEdgy (db, queue, ai, push, trans…) |
+| `uv run kt --help` | Reste de la CLI FastEdgy (db, queue, trans, console…) |
 
 Spec OpenAPI : `http://localhost:8000/openapi.json` — préflight obligatoire avant tout
 changement d'API (cf. règles fastedgy).
@@ -60,6 +61,10 @@ Note : ces fix opèrent sur tout le code de la stack — vérifier le diff avant
 
 Les deux stacks sont à **zéro** : `npm run lint` sans erreur ni avertissement, `uv run pyright`
 sans erreur. Toute nouvelle remontée est une régression à corriger avant de commiter.
+
+Hooks Claude : formatage à chaque écriture (ruff, oxfmt) et gates à l'arrêt sur les fichiers modifiés
+(ruff + pyright, oxlint `--deny-warnings`). Un échec bloque le premier arrêt ; l'arrêt suivant passe
+et affiche l'échec à l'utilisateur.
 
 ### Vérification de type Python (Pyright)
 

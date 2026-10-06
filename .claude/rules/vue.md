@@ -4,7 +4,7 @@
 - Stack: Vue 3 + Vite, Composition API only (no Options API).
 - State: Pinia.
 - Router: Vue Router (SPA).
-- UI: **shadcn-vue** components (built on reka-ui / radix-vue), plus `@headlessui/vue`; styling via Tailwind CSS v4. Add new primitives through shadcn-vue rather than ad-hoc libraries.
+- UI: **shadcn-vue** components (built on reka-ui); styling via Tailwind CSS v4. Add new primitives through shadcn-vue rather than ad-hoc libraries.
 - Code organized by area module: `web/src/{console,common,main}/`, each with `components/`, `composables/`, `stores/`, `views/`. Every server call lives in a `composables/api/`: the models in `common/`, the endpoints of a surface in that surface's area.
 - HTTP: model routes through an **api model** (`common/composables/api/<model>.js`, wrapping `useApiModel()`), lists through **`useDataIterator`**, framework routes through the vue-fastedgy composables (`useStorage`, `useDataset`). The raw **fetcher** (`useFetcher()` / `useFetcherService()`) is for a route that answers to no model. Not Axios.
 - FastEdgy product docs are exposed via an MCP server named "fastedgy-docs".
@@ -31,7 +31,7 @@
    2. All user-facing text goes through i18n—no hardcoded strings in logic.
 
 5) Navigation & security
-   1. Global guard: if route meta `auth.required === true`, validate token via the user store; redirect to `/login?next=…`.
+   1. Global guard (`useAuthRouterGuard`, `web/src/common/routes/index.js`): `meta.requiresAuth` sends a signed-out visitor to `Login`, `meta.requiresGuest` sends a signed-in one to `Home`. The console store sends an account that is not an admin back to the main app.
    2. Never embed secrets; config comes from `import.meta.env`.
 
 6) FastEdgy integration (MCP-first)
@@ -44,17 +44,16 @@
    1. **Usage in components**:
       - Import `useI18n` from `vue-i18n` in `<script setup>`
       - Destructure `const { t } = useI18n()` to access the translation function
-      - Use the directive `v-tc` in HTML tags (`<span>`, `<p>`, etc.) for free text content that is NOT in key format
-      - Use `t(\`English text\`)` for dynamic strings in script
-      - Use `$t(\`English text\`)` directly in templates for key-formatted strings
+      - Use the directive `v-tc` in HTML tags (`<span>`, `<p>`, etc.) for free text
+      - Use `t(\`Texte en français\`)` for dynamic strings in script
+      - Use `$t(\`Texte en français\`)` directly in templates
    2. **Text format distinction**:
-      - **Free text**: Use `<span v-tc>Welcome to our platform</span>` or `<p v-tc>This is a description</p>`
-      - **Key format**: Use `$t(\`welcome.message\`)` or `$t(\`form.email\`)` (lowercase alpha characters with _ or . separators, no spaces)
+      - **Free text** in a tag: `<span v-tc>Bienvenue sur la plateforme</span>` or `<p v-tc>Une description</p>`
+      - **Attribute or interpolated text**: `:placeholder="$t(\`Votre nom\`)"`, `$t(\`{count} fichiers\`, { count })`
    3. **Strict rules**:
-      - NEVER hardcode strings in French/English in templates or logic
-      - All user-facing text must go through `v-tc`, `t()` or `$t()`
+      - NEVER a bare user-facing string in templates or logic: all user-facing text goes through `v-tc`, `t()` or `$t()`
       - Input placeholders, labels, error messages, titles, descriptions must be translated
-   4. **Organization**: Use English text directly as translation key with backticks (e.g. `$t(\`Welcome to our platform\`)`, `$t(\`Email\`)`, `$t(\`Password\`)`)
+   4. **Organization**: French is the source language. Each entry point creates its i18n with `createI18nExtra({ availableLocales: ['fr'] })`, whose first locale is the source: the French text itself is the key (e.g. `$t(\`Mot de passe\`)`, `$t(\`Email\`)`), and renders as itself until another language is added. Never an English or a dotted key (`form.email`): nothing translates it, and the screen shows it as written.
 
 9) UI tests
    1. Use `@vue/test-utils` + `vitest` (jsdom) — the installed toolchain; run with `npm test` (`npm test -- <path>` for one file, `npm run test:watch` while writing). i18n and the `v-tc` directive are installed globally by `web/vitest.setup.js`, so a component carrying text mounts as-is.
